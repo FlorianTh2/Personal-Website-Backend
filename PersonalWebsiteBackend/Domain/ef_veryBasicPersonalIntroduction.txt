@@ -1,0 +1,72 @@
+Allgemein
+	- Fremdschlüssel wird bei 1:n dort gespeichert, wo die n ist
+	- bei 1:n
+		- 1 = depented class = z.B. user
+		- n = the principle class = z.B. projects
+
+
+
+
+
+
+ef core:
+	- was bestimmt wo der FK ist? -> das/die navigational property
+	- Dependent entity (child): This is the entity that contains the foreign key properties. Sometimes referred to as the 'child' of the relationship.
+
+	- Principal entity (parent): This is the entity that contains the primary/alternate key properties. Sometimes referred to as the 'parent' of the relationship.
+
+	- Principal key: The properties that uniquely identify the principal entity. This may be the primary key or an alternate key.
+
+	- Foreign key: The properties in the dependent entity that are used to store the principal key values for the related entity.
+
+	- Navigation property: A property defined on the principal and/or dependent entity that references the related entity.
+		- wird nicht in der Datenbank abgebildet
+		- Sinn: sag ef, dass hier eine Relation ist, wo eventuell ein Schlüssel erstellt werden muss
+		- wenn nicht weiter spezifiziert: erstellt automatisch eine entsprechende FremdschlüsselId in der jeweiligen Tabelle (nicht zwangsläufig dort, wo das navigational property definiert wird)
+		- wenn man den Namen dieser Id bestimmen möchte, muss man ein zusätzlichen Attribut in dem Domain-Model erstellen
+			- diese ID wird in der Datenbank abgebildet
+			- damit diese ID die Reference speichert, muss ein ForeignKey (=[ForeignKey()]) zum Mappen von dem navigation property auf diese id (möglich an verschiedenen Stellen) platziert werden
+				- beim foreign-key property of the depentent class
+				- beim navigational property of the dependent class
+				- beim navigational property of the principal class
+
+	- Self-referencing relationship: A relationship in which the dependent and the principal entity types are the same.
+
+
+
+
+
+
+
+
+
+Beispiel:
+
+employe	n	1	Department
+stores fk "DepartmentId"
+
+code:
+public class Employee
+{
+  public int EmployeeID { get; set; }
+  public string EmployeeName { get; set; }
+ 
+  public int DepartmentID { get; set; }
+  //Navigation property
+  public Department Department { get; set; }
+}
+ 
+public class Department
+{
+  public int DepartmentID { get; set; }
+  public string DepartmentName { get; set; }
+ 
+  //Navigation property
+  public ICollection<Employee> Employeees { get; set; }
+}
+
+
+
+post	n	1	user
+
+project n	1	user

@@ -1,0 +1,12 @@
+projectsController.Create: Erstellt eigene Id damit man ohne ef die intermediate Table zu Tags füllen kann
+	- var newProjectId = Guid.NewGuid();
+	
+	
+	für mich anpassen
+    (problem id angehen)
+    db schema anpassen
+    frontend erstellen
+    developer.facebook.com account erstellen
+    app erstellen + connectionstring anpassen
+    ef 5 feature mit m:n datenbanken benutzen
+    tag aus projectservice herausnehmen

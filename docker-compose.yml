@@ -1,0 +1,33 @@
+version: '3.5'
+
+networks:
+  localdev:
+    name: localdev
+
+services:
+  main-api:
+    build: homepageBackend/
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db-server
+      - redis
+    networks:
+      - localdev
+
+  db-server:
+    image: postgres:13
+    container_name: db-server
+    environment:
+      - POSTGRES_PASSWORD=Florian1234
+    ports:
+      - "5432:5432"
+    networks:
+      - localdev
+
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
