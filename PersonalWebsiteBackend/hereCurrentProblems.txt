@@ -1,12 +1,22 @@
-projectsController.Create: Erstellt eigene Id damit man ohne ef die intermediate Table zu Tags füllen kann
-	- var newProjectId = Guid.NewGuid();
-	
-	
-	für mich anpassen
-    (problem id angehen)
-    db schema anpassen
-    frontend erstellen
-    developer.facebook.com account erstellen
-    app erstellen + connectionstring anpassen
-    ef 5 feature mit m:n datenbanken benutzen
-    tag aus projectservice herausnehmen
+C:\Users\Florian\AppData\Roaming\Microsoft\UserSecrets
+
+https://localhost:5001/swagger/index.html
+
+dotnet watch run
+
+dotnet run
+
+dotnet test
+
+
+
+
+// dotnet run --launch-settings "dev"
+//
+// docker build -t PersonalWebsiteBackend .
+// docker run -p 5000:5000 PersonalWebsiteBackend
+//
+// docker-compose build
+// docker-compose up
+// https://0.0.0.0:5000/swagger/index.html
+// docker-compose down

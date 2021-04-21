@@ -22,8 +22,8 @@ namespace PersonalWebsiteBackend
         }
 
         public IConfiguration Configuration { get; }
-
         
+        // framework-function: configure services
         public void ConfigureServices(IServiceCollection services)
         {
             services.InstallDb(Configuration);
@@ -37,31 +37,24 @@ namespace PersonalWebsiteBackend
             services.InstallSwagger();
 
             services.InstallHealthCheck();
-
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // framework-function: configure HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                // app.UseExceptionHandler();
+                app.UseExceptionHandler();
             }
+            
             app.UseSwagger();
+            
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PersonalWebsiteBackend v1"));
-                
-                // app.Use(async (context, next) =>
-            // {
-            //     logger.LogInformation("Middleware (MW) 1: Incoming Request");
-            //     await next();
-            //     logger.LogInformation("MW2: Outgoing Response");
-            // });
-
+            
             app.UseCustomHealthChecks();
             
             app.UseHttpsRedirection();

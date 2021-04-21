@@ -11,12 +11,10 @@ namespace PersonalWebsiteBackend.Services
     public class ProjectService : IProjectService
     {
         private readonly DataContext _dataContext;
-        private readonly ITagService _tagService;
-
-        public ProjectService(DataContext dataContext, ITagService tagService)
+        
+        public ProjectService(DataContext dataContext)
         {
             _dataContext = dataContext;
-            _tagService = tagService;
         }
 
         public async Task<List<Project>> GetProjectsAsync(GetAllProjectsFilter filter = null, PaginationFilter paginationFilter = null)
@@ -25,14 +23,14 @@ namespace PersonalWebsiteBackend.Services
 
             if (paginationFilter == null)
             {
-                return await _dataContext.Projects.Include(a => a.Tags).ToListAsync();
+                return await _dataContext.Projects.ToListAsync();
             }
             
             queryable = AddFiltersOnQuery(filter, queryable);
 
             var skip = (paginationFilter.PageNumber - 1) * paginationFilter.PageSize;
 
-            return await _dataContext.Projects.Include(a => a.Tags)
+            return await _dataContext.Projects
                 .Skip(skip)
                 .Take(paginationFilter.PageSize)
                 .ToListAsync();
@@ -41,44 +39,9 @@ namespace PersonalWebsiteBackend.Services
         public async Task<Project> GetProjectByIdAsync(Guid projectId)
         {
             return await _dataContext.Projects
-                .Include(a => a.Tags)
                 .SingleOrDefaultAsync(a => a.Id == projectId);
         }
-
-        // creates assigned tags if they are not already in the database
-        public async Task<bool> CreateProjectAsync(Project project)
-        {
-            project.Tags?.ForEach(x => x.TagName = x.TagName.ToLower());
-
-            await AddNewTags(project); 
-            await _dataContext.Projects.AddAsync(project);
-
-            var created = await _dataContext.SaveChangesAsync();
-            return created > 0;
-        }
-
-        // creates assigned tags if they are not already in the database
-        public async Task<bool> UpdateProjectAsync(Project projectToUpdate)
-        {
-            projectToUpdate.Tags?.ForEach(x=>x.TagName = x.TagName.ToLower());
-            await AddNewTags(projectToUpdate);
-            _dataContext.Projects.Update(projectToUpdate);
-            var updated = await _dataContext.SaveChangesAsync();
-            return updated > 0;
-        }
-
-        public async Task<bool> DeleteProjectAsync(Guid projectId)
-        {
-            var project = await GetProjectByIdAsync(projectId);
-
-            if (project == null)
-                return false;
-
-            _dataContext.Projects.Remove(project);
-            var deleted = await _dataContext.SaveChangesAsync();
-            return deleted > 0;
-        }
-
+        
         public async Task<bool> UserOwnsProjectAsync(Guid projectId, string userId)
         {
             var project = await _dataContext.Projects.AsNoTracking().SingleOrDefaultAsync(a => a.Id == projectId);
@@ -94,21 +57,6 @@ namespace PersonalWebsiteBackend.Services
             }
 
             return true;
-        }
-
-        private async Task AddNewTags(Project post)
-        {
-            foreach (var tag in post.Tags)
-            {
-                var existingTag =
-                    await _dataContext.Tags.SingleOrDefaultAsync(x =>
-                        x.Name == tag.TagName);
-                if (existingTag != null)
-                    continue;
-
-                await _dataContext.Tags.AddAsync(new Tag
-                    {Name = tag.TagName, CreatedOn = DateTime.UtcNow, CreatorId = post.UserId});
-            }
         }
         
         private static IQueryable<Project> AddFiltersOnQuery(GetAllProjectsFilter filter, IQueryable<Project> queryable)

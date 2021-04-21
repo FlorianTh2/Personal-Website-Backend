@@ -11,8 +11,6 @@ namespace PersonalWebsiteBackend.Contracts.V1.Responses
         public string Name { get; set; }
 
         public string UserId { get; set; }
-
-        public IEnumerable<TagResponse> Tags { get; set; }
         
         public DateTime CreatedOn { get; set; }
 

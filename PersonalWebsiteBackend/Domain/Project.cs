@@ -10,8 +10,6 @@ namespace PersonalWebsiteBackend.Domain
         [Key] public Guid Id { get; set; }
 
         public string Name { get; set; }
-
-        public virtual List<ProjectTag> Tags { get; set; }
         
         public string UserId { get; set; }
 

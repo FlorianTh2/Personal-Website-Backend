@@ -60,6 +60,7 @@ namespace PersonalWebsiteBackend.IntegrationTests.IntegrationTests
             returnedProject.Data.Id.Should().Be(createdProject.Id);
             returnedProject.Data.Name.Should().Be("Test Project");
             returnedProject.Data.Tags.Single().Name.Should().Be("testtag");
+            
         }
     }
 }

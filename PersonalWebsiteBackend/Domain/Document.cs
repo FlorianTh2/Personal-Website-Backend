@@ -17,9 +17,7 @@ namespace PersonalWebsiteBackend.Domain
         public string Topic { get; set; }
 
         public string Link { get; set; }
-
-        public virtual List<DocumentTag> Tags { get; set; }
-
+        
         public string UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]

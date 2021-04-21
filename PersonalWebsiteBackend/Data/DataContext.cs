@@ -27,12 +27,6 @@ namespace PersonalWebsiteBackend.Data
         public DbSet<Project> Projects { get; set; }
 
         public DbSet<Document> Documents { get; set; }
-
-        public DbSet<Tag> Tags { get; set; }
-
-        public DbSet<ProjectTag> ProjectTags { get; set; }
-        
-        public DbSet<DocumentTag> DocumentTags { get; set; }
         
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
@@ -48,9 +42,6 @@ namespace PersonalWebsiteBackend.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            
-            builder.Entity<ProjectTag>().Ignore(a => a.Project).HasKey(b => new {b.ProjectId, b.TagName});
-            builder.Entity<DocumentTag>().Ignore(a => a.Document).HasKey(b => new {b.DocumentId, b.TagName});
         }
         
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

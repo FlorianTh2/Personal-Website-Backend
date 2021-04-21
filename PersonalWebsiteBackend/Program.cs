@@ -16,24 +16,14 @@ using PersonalWebsiteBackend.Domain;
 
 namespace PersonalWebsiteBackend
 {
-    // used secretManager
-    // local_file_path: C:\Users\Florian\AppData\Roaming\Microsoft\UserSecrets\01d49ea2-0701-4783-8ef5-6471a1c32caa\secrets.json
     public class Program
     {
-        // dotnet run --launch-settings "dev"
-        //
-        // docker build -t PersonalWebsiteBackend .
-        // docker run -p 5000:5000 PersonalWebsiteBackend
-        //
-        // docker-compose build
-        // docker-compose up
-        // https://0.0.0.0:5000/swagger/index.html
-        // docker-compose down
-
+        // framework-function
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
 
+            // migrate database schema + seed database
             using (var serviceScope = host.Services.CreateScope())
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<DataContext>();
@@ -49,12 +39,22 @@ namespace PersonalWebsiteBackend
 
             await host.RunAsync();
         }
+        
+        
+        // framework-function
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host
+                .CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+        }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 
-
+        // helper function
+        // add secrets for database seeding
         private static IConfiguration GetConfiguration(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
