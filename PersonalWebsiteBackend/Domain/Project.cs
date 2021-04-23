@@ -30,7 +30,7 @@ namespace PersonalWebsiteBackend.Domain
         
         public string OwnerName { get; set; }
 
-        public string OwnerHTMLURL { get; set; }
+        public string OwnerHtmlUrl { get; set; }
 
         public bool Private { get; set; }
         
