@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using PersonalWebsiteBackend.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -31,10 +32,11 @@ namespace PersonalWebsiteBackend
 
                 var env = serviceScope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
                 var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>(); 
                 IConfiguration config = GetConfiguration(env);
 
                 await DataContextSeed.SeedDefaultUserAsync(userManager, roleManager, config);
+                await DataContextSeed.SeedProjectDataAsync(dbContext, config);
             }
 
             await host.RunAsync();

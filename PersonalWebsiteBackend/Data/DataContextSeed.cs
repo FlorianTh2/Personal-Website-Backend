@@ -1,9 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Octokit;
 using PersonalWebsiteBackend.Domain;
+using PersonalWebsiteBackend.Extensions;
 using PersonalWebsiteBackend.Options;
+using Project = PersonalWebsiteBackend.Domain.Project;
 
 namespace PersonalWebsiteBackend.Data
 {
@@ -13,8 +19,8 @@ namespace PersonalWebsiteBackend.Data
             RoleManager<IdentityRole> roleManager, IConfiguration config)
         {
             var seedAdminProfile = new SeedAdminProfile();
-            config.Bind(nameof(seedAdminProfile), seedAdminProfile);            
-            
+            config.Bind(nameof(seedAdminProfile), seedAdminProfile);
+
             var administratorRole = new IdentityRole(seedAdminProfile.IdentityRoleName);
 
             if (roleManager.Roles.All(r => r.Name != administratorRole.Name))
@@ -35,7 +41,7 @@ namespace PersonalWebsiteBackend.Data
             }
         }
 
-        public static async Task SeedSampleDataAsync(DataContext context)
+        public static async Task SeedProjectDataAsync(DataContext context, IConfiguration config)
         {
             // Seed, if necessary
             // if (!context.TodoLists.Any())
@@ -52,18 +58,25 @@ namespace PersonalWebsiteBackend.Data
             //
             //     await context.SaveChangesAsync();
             // }
-            
-            // var client = new GitHubClient(new ProductHeaderValue("personal-website"));
-            // // using personal access token
-            // // https://docs.github.com/en/github/authenticating-to-github/about-authentication-to-github
-            // // https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
-            // var tokenAuth = new Credentials("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");
-            // client.Credentials = tokenAuth;
-            // IEnumerable<Repository> repositories = await client.Repository.GetAllForCurrent();
-            // foreach (Repository repository in repositories)
-            // {
-            //     Console.WriteLine(repository.CreatedAt);
-            // }
+
+            if (!context.Projects.Any())
+            {
+                var githubSettings = new GithubSettings();
+                config.Bind(nameof(githubSettings), githubSettings);
+
+                var client = new GitHubClient(new ProductHeaderValue("personal-website"));
+                // using personal access token
+                // https://docs.github.com/en/github/authenticating-to-github/about-authentication-to-github
+                // https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
+                var tokenAuth = new Credentials(githubSettings.GithubApiPersonalAccessToken);
+                client.Credentials = tokenAuth;
+                IEnumerable<Repository> repositories = await client.Repository.GetAllForCurrent();
+                foreach (Repository repository in repositories)
+                {
+                    Project project = repository.ConvertToProject();
+                    Console.WriteLine(repository.CreatedAt);
+                }
+            }
         }
     }
 }
