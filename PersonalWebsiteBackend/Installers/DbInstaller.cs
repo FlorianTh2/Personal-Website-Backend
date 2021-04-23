@@ -22,8 +22,7 @@ namespace PersonalWebsiteBackend.Installers
             services.AddTransient<IDateTime, DateTimeService>();
 
 
-            string ConnectionString = Configuration.GetConnectionString("PersonalWebsiteBackendContextPostgre");
-            Console.WriteLine(ConnectionString);
+            string ConnectionString = Configuration.GetConnectionString("PersonalWebsiteBackendContextPostgre"); 
             services.AddDbContext<DataContext>(options =>
                 options.UseNpgsql(ConnectionString));
 

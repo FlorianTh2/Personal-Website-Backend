@@ -262,14 +262,50 @@ namespace PersonalWebsiteBackend.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("Archived")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("CreatorId")
                         .HasColumnType("text");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("HtmLUrl")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Licence")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
+
+                    b.Property<string>("OwnerHTMLURL")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OwnerName")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Private")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("ProjectCreatedOn")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<long>("ProjectId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("ProjectUpdatedOn")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("timestamp without time zone");
@@ -279,6 +315,19 @@ namespace PersonalWebsiteBackend.Data.Migrations
 
                     b.Property<string>("UserId")
                         .HasColumnType("text");
+
+                    b.Property<string>("Visibility")
+                        .IsRequired()
+                        .HasColumnType("varchar(24)");
+
+                    b.Property<int>("WatchersCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("forksCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("stars")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

@@ -28,9 +28,7 @@ namespace PersonalWebsiteBackend.Data
             _currentUserService = currentUserService;
             _dateTime = dateTime;
         }
-
-        // needed to make PostTag have no id (otherwise: ef-error)
-        //    - reason: its a intermediate table
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -32,26 +32,5 @@ dotnet test
 //    - localhost:5432
 //    - user: postgres (default)
 //    - pw: Florian1234
-//  dotnet ef migrations add "Added_UserId_InProjects" --project .\PersonalWebsiteBackend\
+//  dotnet ef migrations add "updated_project" --project .\PersonalWebsiteBackend\
 //  dotnet ef database update --project .\PersonalWebsiteBackend\
-
-
-
-
-archived
-createdAT
-Description
-ForksCount
-HtmlUrl
-Id
-Language
-License
-Name
-Owner
-Private
-Size
-StargazersCount
-SubscribersCount
-UpdatedAt
-Visibility
-WatchersCount
