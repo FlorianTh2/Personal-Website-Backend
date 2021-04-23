@@ -52,6 +52,18 @@ namespace PersonalWebsiteBackend.Data
             //
             //     await context.SaveChangesAsync();
             // }
+            
+            // var client = new GitHubClient(new ProductHeaderValue("personal-website"));
+            // // using personal access token
+            // // https://docs.github.com/en/github/authenticating-to-github/about-authentication-to-github
+            // // https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
+            // var tokenAuth = new Credentials("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");
+            // client.Credentials = tokenAuth;
+            // IEnumerable<Repository> repositories = await client.Repository.GetAllForCurrent();
+            // foreach (Repository repository in repositories)
+            // {
+            //     Console.WriteLine(repository.CreatedAt);
+            // }
         }
     }
 }

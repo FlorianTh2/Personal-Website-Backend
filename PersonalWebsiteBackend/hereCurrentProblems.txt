@@ -1,11 +1,3 @@
-rerun der db um tags zu entfernen
-
-schnittstelle github + drive überprüfen
-    - welche attribute sollen in der db gespeichert werden
-
-db-schema von document + project überarbeiten
-
-seed anpassen
 
 
 
@@ -29,3 +21,38 @@ dotnet test
 // docker-compose up
 // https://0.0.0.0:5000/swagger/index.html
 // docker-compose down
+
+
+//  dotnet ef migrations add Initial --context PersonalWebsiteBackend.Data.DataContext -o .\Data\Migrations
+//    - location of context and migration folder is now selected for future migration too
+//  dotnet ef database update --project .\PersonalWebsiteBackend\
+//    - localhost:5432
+//    - user: postgres (default)
+//    - pw: Florian1234
+//  dotnet ef migrations add "Added_UserId_InProjects" --project .\PersonalWebsiteBackend\
+//  dotnet ef database update --project .\PersonalWebsiteBackend\
+
+
+
+
+archived
+createdAT
+Description
+ForksCount
+HtmlUrl
+Id
+Language
+License
+Name
+Owner
+Private
+Size
+StargazersCount
+SubscribersCount
+UpdatedAt
+Visibility
+WatchersCount
+
+
+
+PersonalWebsiteBackendContextPostgre

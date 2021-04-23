@@ -49,21 +49,6 @@ namespace PersonalWebsiteBackend.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tags",
-                columns: table => new
-                {
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    CreatorId = table.Column<string>(type: "text", nullable: true),
-                    UpdatedOn = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    UpdaterId = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tags", x => x.Name);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -241,54 +226,6 @@ namespace PersonalWebsiteBackend.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "DocumentTags",
-                columns: table => new
-                {
-                    TagName = table.Column<string>(type: "text", nullable: false),
-                    DocumentId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DocumentTags", x => new { x.DocumentId, x.TagName });
-                    table.ForeignKey(
-                        name: "FK_DocumentTags_Documents_DocumentId",
-                        column: x => x.DocumentId,
-                        principalTable: "Documents",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DocumentTags_Tags_TagName",
-                        column: x => x.TagName,
-                        principalTable: "Tags",
-                        principalColumn: "Name",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProjectTags",
-                columns: table => new
-                {
-                    TagName = table.Column<string>(type: "text", nullable: false),
-                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProjectTags", x => new { x.ProjectId, x.TagName });
-                    table.ForeignKey(
-                        name: "FK_ProjectTags_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProjectTags_Tags_TagName",
-                        column: x => x.TagName,
-                        principalTable: "Tags",
-                        principalColumn: "Name",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -332,19 +269,9 @@ namespace PersonalWebsiteBackend.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocumentTags_TagName",
-                table: "DocumentTags",
-                column: "TagName");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Projects_UserId",
                 table: "Projects",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectTags_TagName",
-                table: "ProjectTags",
-                column: "TagName");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_UserId",
@@ -370,25 +297,16 @@ namespace PersonalWebsiteBackend.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "DocumentTags");
-
-            migrationBuilder.DropTable(
-                name: "ProjectTags");
-
-            migrationBuilder.DropTable(
-                name: "RefreshTokens");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
                 name: "Documents");
 
             migrationBuilder.DropTable(
                 name: "Projects");
 
             migrationBuilder.DropTable(
-                name: "Tags");
+                name: "RefreshTokens");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

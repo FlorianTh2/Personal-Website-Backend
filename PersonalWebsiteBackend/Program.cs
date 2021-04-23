@@ -18,7 +18,7 @@ namespace PersonalWebsiteBackend
 {
     public class Program
     {
-        // framework-function
+        // framework-function: creates + configure host-builder object
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
@@ -41,7 +41,7 @@ namespace PersonalWebsiteBackend
         }
         
         
-        // framework-function
+        // framework-function: builds + runs methods on host-builder object (CreateDefaultBuilder == e.g.load appsettings.json)
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host

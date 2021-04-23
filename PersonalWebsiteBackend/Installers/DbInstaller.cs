@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,10 +20,12 @@ namespace PersonalWebsiteBackend.Installers
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
             
             services.AddTransient<IDateTime, DateTimeService>();
-            
-            
+
+
+            string ConnectionString = Configuration.GetConnectionString("PersonalWebsiteBackendContextPostgre");
+            Console.WriteLine(ConnectionString);
             services.AddDbContext<DataContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("PersonalWebsiteBackendContextPostgre")));
+                options.UseNpgsql(ConnectionString));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 

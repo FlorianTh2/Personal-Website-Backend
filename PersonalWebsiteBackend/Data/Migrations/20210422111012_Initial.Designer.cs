@@ -10,7 +10,7 @@ using PersonalWebsiteBackend.Data;
 namespace PersonalWebsiteBackend.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210115164447_Initial")]
+    [Migration("20210422111012_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -258,21 +258,6 @@ namespace PersonalWebsiteBackend.Data.Migrations
                     b.ToTable("Documents");
                 });
 
-            modelBuilder.Entity("PersonalWebsiteBackend.Domain.DocumentTag", b =>
-                {
-                    b.Property<Guid>("DocumentId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("TagName")
-                        .HasColumnType("text");
-
-                    b.HasKey("DocumentId", "TagName");
-
-                    b.HasIndex("TagName");
-
-                    b.ToTable("DocumentTags");
-                });
-
             modelBuilder.Entity("PersonalWebsiteBackend.Domain.Project", b =>
                 {
                     b.Property<Guid>("Id")
@@ -304,21 +289,6 @@ namespace PersonalWebsiteBackend.Data.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("PersonalWebsiteBackend.Domain.ProjectTag", b =>
-                {
-                    b.Property<Guid>("ProjectId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("TagName")
-                        .HasColumnType("text");
-
-                    b.HasKey("ProjectId", "TagName");
-
-                    b.HasIndex("TagName");
-
-                    b.ToTable("ProjectTags");
-                });
-
             modelBuilder.Entity("PersonalWebsiteBackend.Domain.RefreshToken", b =>
                 {
                     b.Property<string>("Token")
@@ -348,28 +318,6 @@ namespace PersonalWebsiteBackend.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("RefreshTokens");
-                });
-
-            modelBuilder.Entity("PersonalWebsiteBackend.Domain.Tag", b =>
-                {
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("CreatorId")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("UpdaterId")
-                        .HasColumnType("text");
-
-                    b.HasKey("Name");
-
-                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -432,23 +380,6 @@ namespace PersonalWebsiteBackend.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PersonalWebsiteBackend.Domain.DocumentTag", b =>
-                {
-                    b.HasOne("PersonalWebsiteBackend.Domain.Document", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("DocumentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PersonalWebsiteBackend.Domain.Tag", "Tag")
-                        .WithMany("Documents")
-                        .HasForeignKey("TagName")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Tag");
-                });
-
             modelBuilder.Entity("PersonalWebsiteBackend.Domain.Project", b =>
                 {
                     b.HasOne("PersonalWebsiteBackend.Domain.ApplicationUser", "User")
@@ -456,23 +387,6 @@ namespace PersonalWebsiteBackend.Data.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("PersonalWebsiteBackend.Domain.ProjectTag", b =>
-                {
-                    b.HasOne("PersonalWebsiteBackend.Domain.Project", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PersonalWebsiteBackend.Domain.Tag", "Tag")
-                        .WithMany("Projects")
-                        .HasForeignKey("TagName")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("PersonalWebsiteBackend.Domain.RefreshToken", b =>
@@ -482,23 +396,6 @@ namespace PersonalWebsiteBackend.Data.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("PersonalWebsiteBackend.Domain.Document", b =>
-                {
-                    b.Navigation("Tags");
-                });
-
-            modelBuilder.Entity("PersonalWebsiteBackend.Domain.Project", b =>
-                {
-                    b.Navigation("Tags");
-                });
-
-            modelBuilder.Entity("PersonalWebsiteBackend.Domain.Tag", b =>
-                {
-                    b.Navigation("Documents");
-
-                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }
