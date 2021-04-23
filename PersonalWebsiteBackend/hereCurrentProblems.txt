@@ -23,7 +23,10 @@ dotnet test
 // docker-compose down
 
 
-//  dotnet ef migrations add Initial --context PersonalWebsiteBackend.Data.DataContext -o .\Data\Migrations
+
+// currently not needed since with the start of the project a migration + update is generated automaticly at the moment
+//
+//  dotnet ef migrations add Initial --context PersonalWebsiteBackend.Data.DataContext -o .\Data\Migrations --project .\PersonalWebsiteBackend\
 //    - location of context and migration folder is now selected for future migration too
 //  dotnet ef database update --project .\PersonalWebsiteBackend\
 //    - localhost:5432
@@ -52,7 +55,3 @@ SubscribersCount
 UpdatedAt
 Visibility
 WatchersCount
-
-
-
-PersonalWebsiteBackendContextPostgre

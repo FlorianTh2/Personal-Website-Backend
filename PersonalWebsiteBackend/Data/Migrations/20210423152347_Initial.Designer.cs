@@ -10,7 +10,7 @@ using PersonalWebsiteBackend.Data;
 namespace PersonalWebsiteBackend.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210422111012_Initial")]
+    [Migration("20210423152347_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
