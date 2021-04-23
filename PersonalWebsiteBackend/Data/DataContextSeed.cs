@@ -43,22 +43,6 @@ namespace PersonalWebsiteBackend.Data
 
         public static async Task SeedProjectDataAsync(DataContext context, IConfiguration config)
         {
-            // Seed, if necessary
-            // if (!context.TodoLists.Any())
-            // {
-            //     context.TodoLists.Add(new TodoList
-            //     {
-            //         Title = "Shopping",
-            //         Colour = Colour.Blue,
-            //         Items =
-            //         {
-            //             new TodoItem { Title = "Apples", Done = true },
-            //         }
-            //     });
-            //
-            //     await context.SaveChangesAsync();
-            // }
-
             if (!context.Projects.Any())
             {
                 var githubSettings = new GithubSettings();
