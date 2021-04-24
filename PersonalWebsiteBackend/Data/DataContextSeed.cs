@@ -41,13 +41,17 @@ namespace PersonalWebsiteBackend.Data
             }
         }
 
-        public static async Task SeedProjectDataAsync(DataContext context, IConfiguration config)
+        public static async Task SeedProjectDataAsync(UserManager<ApplicationUser> userManager, DataContext context, IConfiguration config)
         {
             if (!context.Projects.Any())
             {
+                // get admin
+                var seedAdminProfile = new SeedAdminProfile();
+                config.Bind(nameof(seedAdminProfile), seedAdminProfile);
+                var user = await userManager.FindByEmailAsync(seedAdminProfile.Email);
+
                 var githubSettings = new GithubSettings();
                 config.Bind(nameof(githubSettings), githubSettings);
-
                 var client = new GitHubClient(new ProductHeaderValue("personal-website"));
                 // using personal access token
                 // https://docs.github.com/en/github/authenticating-to-github/about-authentication-to-github
@@ -58,7 +62,7 @@ namespace PersonalWebsiteBackend.Data
                 foreach (Repository repository in repositories)
                 {
                     Project project = repository.ConvertToProject();
-                    // we need to set user of project here
+                    project.UserId = user.Id;
                     context.AddAsync(project);
                 }
 
