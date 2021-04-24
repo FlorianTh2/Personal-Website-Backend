@@ -200,6 +200,7 @@ namespace PersonalWebsiteBackend.Services
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.StackTrace);
                 return null;
             }
         }

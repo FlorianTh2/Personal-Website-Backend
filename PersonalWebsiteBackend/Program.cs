@@ -36,7 +36,7 @@ namespace PersonalWebsiteBackend
                 IConfiguration config = GetConfiguration(env);
 
                 await DataContextSeed.SeedDefaultUserAsync(userManager, roleManager, config);
-                await DataContextSeed.SeedProjectDataAsync(dbContext, config);
+                await DataContextSeed.SeedProjectDataAsync(userManager, dbContext, config);
             }
 
             await host.RunAsync();

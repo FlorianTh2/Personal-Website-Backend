@@ -10,6 +10,7 @@ namespace PersonalWebsiteBackend.Extensions
         {
             var project = new Project()
             {
+                ProjectId = repository.Id,
                 Name = repository.Name,
                 Description = repository.Description,
                 Archived = repository.Archived,

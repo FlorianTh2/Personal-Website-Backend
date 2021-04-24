@@ -58,12 +58,17 @@ namespace PersonalWebsiteBackend.Data
                 // https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
                 var tokenAuth = new Credentials(githubSettings.GithubApiPersonalAccessToken);
                 client.Credentials = tokenAuth;
+                var repositoryUser = await client.User.Current();
                 IEnumerable<Repository> repositories = await client.Repository.GetAllForCurrent();
                 foreach (Repository repository in repositories)
                 {
-                    Project project = repository.ConvertToProject();
-                    project.UserId = user.Id;
-                    context.AddAsync(project);
+                    // login == login-name
+                    if(repository.Owner.Login == repositoryUser.Login)
+                    {
+                        Project project = repository.ConvertToProject();
+                        project.UserId = user.Id;
+                        await context.AddAsync(project);
+                    }
                 }
 
                 var created = await context.SaveChangesAsync();
