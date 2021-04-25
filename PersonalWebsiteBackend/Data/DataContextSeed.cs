@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Drive.v3;
+using Google.Apis.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Octokit;
@@ -80,7 +84,34 @@ namespace PersonalWebsiteBackend.Data
         public static async Task SeedDocumentsDataAsync(UserManager<ApplicationUser> userManager, DataContext context,
             IConfiguration config)
         {
+            var seedAdminProfile = new SeedAdminProfile();
+            config.Bind(nameof(seedAdminProfile), seedAdminProfile);
+            var user = await userManager.FindByEmailAsync(seedAdminProfile.Email);
             
+            var googleDriveAPISettings = new GoogleDriveAPISettings();
+            config.Bind(nameof(googleDriveAPISettings), googleDriveAPISettings);
+            
+            // Create Drive API service
+            var credentials = GoogleCredential.FromJson(JsonSerializer.Serialize(googleDriveAPISettings))
+                .CreateScoped(DriveService.ScopeConstants.Drive);
+            var service = new DriveService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credentials
+            });
+
+            // Define parameters of request.
+            var listFilesRequest = service.Files.List();
+            listFilesRequest.PageSize = 1000;
+            listFilesRequest.Fields = "*";
+
+            // List files.
+            var listFilesResponse = await listFilesRequest.ExecuteAsync();
+            var files = listFilesResponse.Files;
+            foreach (var file in files)
+            {
+                Console.WriteLine(file.Name);
+            }
+            Console.WriteLine("End");
         }
 
     }

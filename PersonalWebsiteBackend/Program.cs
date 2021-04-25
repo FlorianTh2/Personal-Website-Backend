@@ -37,6 +37,7 @@ namespace PersonalWebsiteBackend
 
                 await DataContextSeed.SeedDefaultUserAsync(userManager, roleManager, config);
                 await DataContextSeed.SeedProjectDataAsync(userManager, dbContext, config);
+                await DataContextSeed.SeedDocumentsDataAsync(userManager, dbContext, config);
             }
 
             await host.RunAsync();
