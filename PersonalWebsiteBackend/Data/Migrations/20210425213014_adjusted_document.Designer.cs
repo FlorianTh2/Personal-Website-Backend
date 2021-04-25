@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PersonalWebsiteBackend.Data;
@@ -9,9 +10,10 @@ using PersonalWebsiteBackend.Data;
 namespace PersonalWebsiteBackend.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210425213014_adjusted_document")]
+    partial class adjusted_document
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,7 +233,7 @@ namespace PersonalWebsiteBackend.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("DocumentCreatedTime")
+                    b.Property<DateTime>("DocumentCreatedTime")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("DocumentId")
@@ -255,10 +257,10 @@ namespace PersonalWebsiteBackend.Data.Migrations
                     b.Property<string>("OwnersEmail")
                         .HasColumnType("text");
 
-                    b.Property<bool?>("Shared")
+                    b.Property<bool>("Shared")
                         .HasColumnType("boolean");
 
-                    b.Property<long?>("Size")
+                    b.Property<long>("Size")
                         .HasColumnType("bigint");
 
                     b.Property<string>("ThumbnailLink")
@@ -273,7 +275,7 @@ namespace PersonalWebsiteBackend.Data.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
-                    b.Property<long?>("Version")
+                    b.Property<long>("Version")
                         .HasColumnType("bigint");
 
                     b.Property<string>("WebcontentLink")
