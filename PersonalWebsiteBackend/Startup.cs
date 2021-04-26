@@ -49,7 +49,7 @@ namespace PersonalWebsiteBackend
             }
             else
             {
-                app.UseExceptionHandler();
+                // app.UseExceptionHandler();
             }
             
             app.UseSwagger();
