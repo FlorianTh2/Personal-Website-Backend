@@ -1,4 +1,8 @@
-
+aktuell:
+umgebungsvariablen mit docker
+docker ignore zum ignorieren von appsetting.json
+umgebungsvariablen check via local kubernetes
+verbinden zu rds
 
 
 C:\Users\Florian\AppData\Roaming\Microsoft\UserSecrets
