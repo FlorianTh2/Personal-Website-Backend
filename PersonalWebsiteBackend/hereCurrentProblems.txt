@@ -11,6 +11,8 @@ dotnet run
 
 dotnet test
 
+dotnet tool install --global dotnet-ef
+
 
 // dotnet run --launch-settings "dev"
 //
