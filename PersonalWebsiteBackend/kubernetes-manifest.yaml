@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: personal-website-backend-deployment
+  labels:
+    app: personal-website-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: personal-website-backend
+  template:
+    metadata:
+      labels:
+        app: personal-website-backend
+    spec:
+      containers:
+        - name: personal-website-backend
+          imagePullPolicy: Always  
+          image: flooth/personal-website-backend:latest
+          ports:
+            - containerPort: 80
+          envFrom:
+            - secretRef:
+               name: backend-secrets
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: personal-website-backend-service
+  labels:
+    run: personal-website-backend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 4000
+    targetPort: 80
+    protocol: TCP
+  selector:
+    app: personal-website-backend
