@@ -33,7 +33,7 @@ metadata:
   labels:
     run: personal-website-backend
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
   - port: 4000
     targetPort: 80
