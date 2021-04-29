@@ -10,4 +10,10 @@ FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /app
 COPY --from=build-env /app/out .
 
-# ENTRYPOINT ["dotnet", "PersonalWebsiteBackend.dll"]
+# presence of appsettings.json with valid (e.g. empty json) content is needed for dotnet PersonalWebsiteBackend.dll
+# the current appsettings.json is in .dockerignore to not copy secrets into image
+RUN echo "{}" > appsettings.json
+
+# CMD /bin/bash ; sleep infinity
+
+ENTRYPOINT ["dotnet", "PersonalWebsiteBackend.dll"]
