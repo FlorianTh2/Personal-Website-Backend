@@ -1,23 +1,19 @@
-using System;
-using PersonalWebsiteBackend.Data;
-using PersonalWebsiteBackend.Domain;
+
 using PersonalWebsiteBackend.Extensions;
 using PersonalWebsiteBackend.Installers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
+
 
 namespace PersonalWebsiteBackend
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
         {
@@ -30,6 +26,8 @@ namespace PersonalWebsiteBackend
             services.InstallDb(Configuration);
 
             services.InstallMvc(Configuration);
+            
+            services.InstallCors();
             
             services.InstallAutomapper();
 
@@ -65,6 +63,8 @@ namespace PersonalWebsiteBackend
             app.UseHttpsRedirection();
             
             app.UseRouting();
+            
+            app.UseCors();
 
 
             // https://www.codeproject.com/Articles/5160941/ASP-NET-CORE-Token-Authentication-and-Authorizatio

@@ -53,7 +53,7 @@ namespace PersonalWebsiteBackend.Controllers.V1
         /// <param name="userLoginRequest"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route(ApiRoutes.Identity.Login)]
+        [Route(ApiRoutes.Identity.Login, Name = "[controller]_[action]")]
         public async Task<ActionResult<AuthSuccessResponse>> Login([FromBody] UserLoginRequest userLoginRequest)
         {
             var authResponse =
@@ -80,7 +80,7 @@ namespace PersonalWebsiteBackend.Controllers.V1
         /// <param name="refreshTokenRequest"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route(ApiRoutes.Identity.Refresh)]
+        [Route(ApiRoutes.Identity.Refresh, Name = "[controller]_[action]")]
         public async Task<ActionResult<AuthSuccessResponse>> Refresh([FromBody] RefreshTokenRequest refreshTokenRequest)
         {
             var authResponse =

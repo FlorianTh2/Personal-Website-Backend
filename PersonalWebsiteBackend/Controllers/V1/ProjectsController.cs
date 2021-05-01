@@ -39,7 +39,7 @@ namespace PersonalWebsiteBackend.Controllers.V1
         /// <param name="paginationQuery"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route(ApiRoutes.Projects.GetAll)]
+        [Route(ApiRoutes.Projects.GetAll, Name = "[controller]_[action]")]
         [Cache(600)] 
         public async Task<ActionResult<PagedResponse<ProjectResponse>>> GetAll([FromQuery] GetAllProjectsQuery query, [FromQuery]PaginationQuery paginationQuery)
         {
@@ -63,7 +63,7 @@ namespace PersonalWebsiteBackend.Controllers.V1
         /// <param name="projectId"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route(ApiRoutes.Projects.Get)]
+        [Route(ApiRoutes.Projects.Get, Name = "[controller]_[action]")]
         public async Task<ActionResult<Response<ProjectResponse>>> Get([FromRoute] Guid projectId)
         {
             var project = await _projectService.GetProjectByIdAsync(projectId);

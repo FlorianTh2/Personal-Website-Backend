@@ -44,7 +44,8 @@ namespace PersonalWebsiteBackend
         }
         
         
-        // framework-function: builds + runs methods on host-builder object (CreateDefaultBuilder == e.g.load appsettings.json)
+        // framework-function: builds + runs methods on host-builder object (CreateDefaultBuilder == e.g. injects default logger, load appsettings.json)
+        // create
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host

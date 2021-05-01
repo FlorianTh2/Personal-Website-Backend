@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using PersonalWebsiteBackend.Cache;
 using PersonalWebsiteBackend.Domain;
 using PersonalWebsiteBackend.Services;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace PersonalWebsiteBackend.Controllers.V1
 {
@@ -36,7 +37,7 @@ namespace PersonalWebsiteBackend.Controllers.V1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route(ApiRoutes.Documents.GetAll)]
+        [Route(ApiRoutes.Documents.GetAll, Name = "[controller]_[action]")]
         [Cache(600)]
         public async Task<ActionResult<Response<List<DocumentResponse>>>> GetAll()
         {
@@ -50,7 +51,7 @@ namespace PersonalWebsiteBackend.Controllers.V1
         /// <param name="documentId"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route(ApiRoutes.Documents.Get)]
+        [Route(ApiRoutes.Documents.Get, Name = "[controller]_[action]")]
         [Cache(600)]
         public async Task<ActionResult<Response<DocumentResponse>>> Get([FromRoute] Guid documentId)
         {
