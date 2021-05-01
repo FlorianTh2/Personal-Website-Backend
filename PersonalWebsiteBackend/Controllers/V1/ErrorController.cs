@@ -11,6 +11,8 @@ using Serilog;
 namespace PersonalWebsiteBackend.Controllers.V1
 {
     [ApiController]
+    [AllowAnonymous]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ErrorController : ControllerBase
     {
         private readonly ILogger<ErrorController> _logger;
@@ -19,10 +21,8 @@ namespace PersonalWebsiteBackend.Controllers.V1
         {
             _logger = logger;
         }
-
-        [AllowAnonymous]
+        
         [Route("/error")]
-        [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Error()
         {
             var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
