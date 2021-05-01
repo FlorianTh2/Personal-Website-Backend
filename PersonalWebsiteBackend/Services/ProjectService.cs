@@ -23,7 +23,7 @@ namespace PersonalWebsiteBackend.Services
 
             if (paginationFilter == null)
             {
-                return await _dataContext.Projects.ToListAsync();
+                return new List<Project>();
             }
             
             queryable = AddFiltersOnQuery(filter, queryable);

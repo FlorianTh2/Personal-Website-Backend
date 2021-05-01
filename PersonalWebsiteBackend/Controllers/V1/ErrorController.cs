@@ -1,15 +1,25 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Octokit;
 using PersonalWebsiteBackend.Contracts.V1.Responses;
+using Serilog;
 
 namespace PersonalWebsiteBackend.Controllers.V1
 {
     [ApiController]
     public class ErrorController : ControllerBase
     {
+        private readonly ILogger<ErrorController> _logger;
+
+        public ErrorController(ILogger<ErrorController> logger)
+        {
+            _logger = logger;
+        }
+
         [AllowAnonymous]
         [Route("/error")]
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -25,12 +35,17 @@ namespace PersonalWebsiteBackend.Controllers.V1
 
             Response.StatusCode = code; // You can use HttpStatusCode enum instead
 
-            return new BadRequestObjectResult(new ErrorResponse(new ErrorGeneralModel()
+            var errorResponse = new ErrorResponse<ErrorGeneralModel>(new ErrorGeneralModel()
             {
                 Type = exception.GetType().Name,
                 Message = exception.Message,
                 StackTrace = exception.StackTrace
-            }));
+            });
+
+            _logger.LogError(string.Join(",", errorResponse.Errors.Select(a => a.Message)));
+            _logger.LogError(string.Join(",", errorResponse.Errors.Select(a => a.StackTrace)));
+
+            return new BadRequestObjectResult(errorResponse);
         }
     }
 }

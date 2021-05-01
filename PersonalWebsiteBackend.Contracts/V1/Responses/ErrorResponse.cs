@@ -2,15 +2,15 @@
 
 namespace PersonalWebsiteBackend.Contracts.V1.Responses
 {
-    public class ErrorResponse
+    public class ErrorResponse<T>
     {
         public ErrorResponse(){}
 
-        public ErrorResponse(ErrorModel error)
+        public ErrorResponse(T error)
         {
             Errors.Add(error);
         }
         
-        public List<ErrorModel> Errors { get; set; } = new List<ErrorModel>();
+        public List<T> Errors { get; set; } = new List<T>();
     }
 }

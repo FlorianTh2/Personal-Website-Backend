@@ -19,7 +19,7 @@ namespace PersonalWebsiteBackend.Filter
                         keyValuePair => keyValuePair.Value.Errors.Select(b => b.ErrorMessage))
                     .ToArray();
                 
-                var errorResponse = new ErrorResponse();
+                var errorResponse = new ErrorResponse<ErrorFieldValidationModel>();
 
                 foreach (var error in errorsInModelState)
                 {
