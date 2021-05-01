@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PersonalWebsiteBackend.Data;
 using PersonalWebsiteBackend.Domain;
+using Serilog;
 
 namespace PersonalWebsiteBackend
 {
@@ -50,6 +51,15 @@ namespace PersonalWebsiteBackend
         {
             return Host
                 .CreateDefaultBuilder(args)
+                .UseSerilog((context, configuration) =>
+                {
+                    configuration
+                        .Enrich.FromLogContext()
+                        .Enrich.WithMachineName()
+                        .WriteTo.Console()
+                        .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
+                        .ReadFrom.Configuration(context.Configuration);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
