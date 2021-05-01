@@ -1,4 +1,3 @@
-
 using PersonalWebsiteBackend.Extensions;
 using PersonalWebsiteBackend.Installers;
 using Microsoft.AspNetCore.Builder;
@@ -19,16 +18,16 @@ namespace PersonalWebsiteBackend
         {
             Configuration = configuration;
         }
-        
+
         // framework-function: configure services
         public void ConfigureServices(IServiceCollection services)
         {
             services.InstallDb(Configuration);
 
             services.InstallMvc(Configuration);
-            
+
             services.InstallCors();
-            
+
             services.InstallAutomapper();
 
             services.InstallCacheRedis(Configuration);
@@ -41,34 +40,30 @@ namespace PersonalWebsiteBackend
         // framework-function: configure HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                // app.UseExceptionHandler();
-            }
-            
+            // if (env.IsDevelopment())
+            //     app.UseDeveloperExceptionPage();
+
+            app.UseExceptionHandler("/error");
+
             app.UseSwagger();
-            
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "PersonalWebsiteBackend v1");
                 c.RoutePrefix = string.Empty;
             });
-            
+
             app.UseCustomHealthChecks();
-            
+
             app.UseHttpsRedirection();
-            
+
             app.UseRouting();
-            
+
             app.UseCors();
 
 
             // https://www.codeproject.com/Articles/5160941/ASP-NET-CORE-Token-Authentication-and-Authorizatio
-            
+
             // introduction: https://docs.microsoft.com/de-de/aspnet/core/security/authentication/?view=aspnetcore-5.0
             // -> this authentication middleware uses internally the service: IAuthenticationService
             // -> the authentication-service uses registered authentication-handlers
@@ -83,7 +78,7 @@ namespace PersonalWebsiteBackend
             app.UseAuthentication();
 
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

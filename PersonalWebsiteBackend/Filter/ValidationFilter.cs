@@ -25,7 +25,7 @@ namespace PersonalWebsiteBackend.Filter
                 {
                     foreach (var subError in error.Value)
                     {
-                        var errorModel = new ErrorModel()
+                        var errorModel = new ErrorFieldValidationModel()
                         {
                             FieldName = error.Key,
                             Message = subError

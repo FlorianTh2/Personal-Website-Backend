@@ -1,7 +1,9 @@
 ﻿namespace PersonalWebsiteBackend.Contracts.V1.Responses
 {
-    public interface ErrorModel
+    public class ErrorFieldValidationModel : ErrorModel
     {
+        public string FieldName { get; set; }
+
         public string Message { get; set; }
     }
 }

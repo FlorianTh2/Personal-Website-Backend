@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using PersonalWebsiteBackend.Contracts.V1;
-using PersonalWebsiteBackend.Contracts.V1.Requests;
 using PersonalWebsiteBackend.Contracts.V1.Responses;
-using PersonalWebsiteBackend.Extensions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using PersonalWebsiteBackend.Cache;
-using PersonalWebsiteBackend.Domain;
 using PersonalWebsiteBackend.Services;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace PersonalWebsiteBackend.Controllers.V1
 {
@@ -23,12 +18,14 @@ namespace PersonalWebsiteBackend.Controllers.V1
         private readonly IDocumentService _documentService;
         private readonly IUriService _uriService;
         private readonly IMapper _mapper;
+        private readonly ILogger<DocumentController> _logger;
 
-        public DocumentController(IDocumentService documentService, IUriService uriService, IMapper mapper)
+        public DocumentController(IDocumentService documentService, IUriService uriService, IMapper mapper, ILogger<DocumentController> logger)
         {
             _documentService = documentService;
             _uriService = uriService;
             _mapper = mapper;
+            _logger = logger;
         }
 
         

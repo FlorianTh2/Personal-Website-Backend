@@ -30,7 +30,7 @@ namespace PersonalWebsiteBackend.Services
 
             var skip = (paginationFilter.PageNumber - 1) * paginationFilter.PageSize;
 
-            return await _dataContext.Projects
+            return await queryable
                 .Skip(skip)
                 .Take(paginationFilter.PageSize)
                 .ToListAsync();
@@ -63,7 +63,8 @@ namespace PersonalWebsiteBackend.Services
         {
             if (!string.IsNullOrEmpty(filter?.UserId))
             {
-                queryable.Where(a => a.UserId == filter.UserId);
+                Console.WriteLine(filter.UserId);
+                queryable = queryable.Where(a => a.UserId == filter.UserId);
             }
 
             return queryable;
