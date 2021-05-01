@@ -7,10 +7,8 @@ using PersonalWebsiteBackend.Services;
 
 namespace PersonalWebsiteBackend.Controllers.V1
 {
-    // {
-    // "email": "test2@test.com",
-    // "password": "Test1234!!"
-    // }
+    [Produces("application/json")]
+    [ApiController]
     public class IdentityController : Controller
     {
         private readonly IIdentityService _identityService;
@@ -48,10 +46,15 @@ namespace PersonalWebsiteBackend.Controllers.V1
         //         RefreshToken = authResponse.RefreshToken
         //     });
         // }
-        
+
+        /// <summary>
+        /// Login to the service
+        /// </summary>
+        /// <param name="userLoginRequest"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route(ApiRoutes.Identity.Login)]
-        public async Task<IActionResult> Login([FromBody] UserLoginRequest userLoginRequest)
+        public async Task<ActionResult<AuthSuccessResponse>> Login([FromBody] UserLoginRequest userLoginRequest)
         {
             var authResponse =
                 await _identityService.LoginAsync(userLoginRequest.Email, userLoginRequest.Password);
@@ -71,9 +74,14 @@ namespace PersonalWebsiteBackend.Controllers.V1
             });
         }
 
+        /// <summary>
+        /// Refreshes a given JSON-Web-Token
+        /// </summary>
+        /// <param name="refreshTokenRequest"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route(ApiRoutes.Identity.Refresh)]
-        public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest refreshTokenRequest)
+        public async Task<ActionResult<AuthSuccessResponse>> Refresh([FromBody] RefreshTokenRequest refreshTokenRequest)
         {
             var authResponse =
                 await _identityService.RefreshTokenAsync(refreshTokenRequest.Token, refreshTokenRequest.RefreshToken);

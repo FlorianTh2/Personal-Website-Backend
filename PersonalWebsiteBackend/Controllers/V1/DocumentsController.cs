@@ -15,7 +15,9 @@ using PersonalWebsiteBackend.Services;
 
 namespace PersonalWebsiteBackend.Controllers.V1
 {
-    public class DocumentController : Controller
+    [Produces("application/json")]
+    [ApiController]
+    public class DocumentController : ControllerBase
     {
         private readonly IDocumentService _documentService;
         private readonly IUriService _uriService;
@@ -28,19 +30,29 @@ namespace PersonalWebsiteBackend.Controllers.V1
             _mapper = mapper;
         }
 
+        
+        /// <summary>
+        /// Get all Documents
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route(ApiRoutes.Documents.GetAll)]
         [Cache(600)]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<Response<List<DocumentResponse>>>> GetAll()
         {
             var documents = await _documentService.GetDocumentsAsync();
             return Ok(new Response<List<DocumentResponse>>(_mapper.Map<List<DocumentResponse>>(documents)));
         }
 
+        /// <summary>
+        /// Get one document by its documentId
+        /// </summary>
+        /// <param name="documentId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route(ApiRoutes.Documents.Get)]
         [Cache(600)]
-        public async Task<IActionResult> Get([FromRoute] Guid documentId)
+        public async Task<ActionResult<Response<DocumentResponse>>> Get([FromRoute] Guid documentId)
         {
             var document = await _documentService.GetDocumentByIdAsync(documentId);
 

@@ -17,6 +17,8 @@ using PersonalWebsiteBackend.Services;
 
 namespace PersonalWebsiteBackend.Controllers.V1
 {
+    [Produces("application/json")]
+    [ApiController]
     public class ProjectsController : Controller
     {
         private readonly IProjectService _projectService;
@@ -30,10 +32,16 @@ namespace PersonalWebsiteBackend.Controllers.V1
             _uriService = uriService;
         }
 
+        /// <summary>
+        /// Get all Projects in a paged manner.
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="paginationQuery"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route(ApiRoutes.Projects.GetAll)]
         [Cache(600)] 
-        public async Task<IActionResult> GetAll([FromQuery] GetAllProjectsQuery query, [FromQuery]PaginationQuery paginationQuery)
+        public async Task<ActionResult<PagedResponse<ProjectResponse>>> GetAll([FromQuery] GetAllProjectsQuery query, [FromQuery]PaginationQuery paginationQuery)
         {
             var paginationFilter = _mapper.Map<PaginationFilter>(paginationQuery);
             var filter = _mapper.Map<GetAllProjectsFilter>(query);
@@ -49,9 +57,14 @@ namespace PersonalWebsiteBackend.Controllers.V1
             return Ok(PaginationHelpers.CreatePaginatedResponse(_uriService, paginationFilter, projectsResponse));
         }
 
+        /// <summary>
+        /// Get a project by projectId
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route(ApiRoutes.Projects.Get)]
-        public async Task<IActionResult> Get([FromRoute] Guid projectId)
+        public async Task<ActionResult<Response<ProjectResponse>>> Get([FromRoute] Guid projectId)
         {
             var project = await _projectService.GetProjectByIdAsync(projectId);
 
