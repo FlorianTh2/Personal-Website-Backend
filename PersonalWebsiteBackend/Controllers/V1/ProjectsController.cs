@@ -35,8 +35,12 @@ namespace PersonalWebsiteBackend.Controllers.V1
         /// <summary>
         /// Get all Projects in a paged manner.
         /// </summary>
-        /// <param name="query"></param>
-        /// <param name="paginationQuery"></param>
+        /// <param name="query">
+        ///     query-parameter includes userid of which the project should be returned
+        /// </param>
+        /// <param name="paginationQuery">
+        ///    paginationQuery includes the parameter PageNumber and PageSize which are used to determine the result-page of the response
+        /// </param>
         /// <returns></returns>
         [HttpGet]
         [Route(ApiRoutes.Projects.GetAll, Name = "[controller]_[action]")]
