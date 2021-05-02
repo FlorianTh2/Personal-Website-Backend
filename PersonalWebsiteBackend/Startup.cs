@@ -40,9 +40,6 @@ namespace PersonalWebsiteBackend
         // framework-function: configure HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-            // if (env.IsDevelopment())
-            //     app.UseDeveloperExceptionPage();
-
             app.UseExceptionHandler("/error");
 
             app.UseSwagger();
@@ -50,7 +47,8 @@ namespace PersonalWebsiteBackend
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "PersonalWebsiteBackend v1");
-                c.RoutePrefix = string.Empty;
+                if (env.IsDevelopment())
+                    c.RoutePrefix = string.Empty;
             });
 
             app.UseCustomHealthChecks();
