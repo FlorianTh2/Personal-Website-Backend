@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PersonalWebsiteBackend.Contracts.V1.Responses
 {
@@ -11,6 +12,8 @@ namespace PersonalWebsiteBackend.Contracts.V1.Responses
     // Law #5: Don’t use time if you don’t need it
     // https://stackoverflow.com/a/37051167
     // http://apiux.com/2013/03/20/5-laws-api-dates-and-times/
+    
+    [DisplayName("Project")]
     public class ProjectResponse
     {
         public Guid Id { get; set; }

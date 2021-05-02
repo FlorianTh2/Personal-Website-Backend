@@ -1,6 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -27,6 +30,11 @@ namespace PersonalWebsiteBackend.Installers
                 });
                 
                 // a.CustomSchemaIds(schemaIdStrategy);
+                // a.CustomSchemaIds(x =>
+                //     x.GetCustomAttributes(false).OfType<DisplayNameAttribute>().FirstOrDefault()?.DisplayName ??
+                //     x.Name);
+                
+                a.CustomSchemaIds(schemaIdStrategy);
 
                 // make swagger load the SwaggerExamples/ - folder
                 a.ExampleFilters();
@@ -71,11 +79,12 @@ namespace PersonalWebsiteBackend.Installers
             services.AddSwaggerExamplesFromAssemblyOf<Startup>();
         }
         
-        // private static string schemaIdStrategy(Type currentClass) {
-        //     string returnedValue = currentClass.Name;
-        //     if (returnedValue.EndsWith("DTO"))
-        //         returnedValue = returnedValue.Replace("DTO", string.Empty);
-        //     return Guid.NewGuid().ToString();
-        // }
+private static string schemaIdStrategy(Type currentClass)
+{
+    string customSuffix = "Response";
+    var tmpDisplayName = currentClass.ShortDisplayName().Replace("<", "").Replace(">", "");
+    var removedSuffix = tmpDisplayName.EndsWith(customSuffix) ? tmpDisplayName.Substring(0, tmpDisplayName.Length - customSuffix.Length) : tmpDisplayName;
+    return removedSuffix;
+}
     }
 }
