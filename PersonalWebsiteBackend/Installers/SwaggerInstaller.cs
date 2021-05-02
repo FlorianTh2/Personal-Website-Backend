@@ -26,6 +26,8 @@ namespace PersonalWebsiteBackend.Installers
                     },
                 });
                 
+                // a.CustomSchemaIds(schemaIdStrategy);
+
                 // make swagger load the SwaggerExamples/ - folder
                 a.ExampleFilters();
                 
@@ -68,5 +70,12 @@ namespace PersonalWebsiteBackend.Installers
             // make swagger load the SwaggerExamples/ - folder
             services.AddSwaggerExamplesFromAssemblyOf<Startup>();
         }
+        
+        // private static string schemaIdStrategy(Type currentClass) {
+        //     string returnedValue = currentClass.Name;
+        //     if (returnedValue.EndsWith("DTO"))
+        //         returnedValue = returnedValue.Replace("DTO", string.Empty);
+        //     return Guid.NewGuid().ToString();
+        // }
     }
 }
