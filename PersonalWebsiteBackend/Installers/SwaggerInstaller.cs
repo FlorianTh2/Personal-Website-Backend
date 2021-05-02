@@ -79,12 +79,12 @@ namespace PersonalWebsiteBackend.Installers
             services.AddSwaggerExamplesFromAssemblyOf<Startup>();
         }
         
-private static string schemaIdStrategy(Type currentClass)
-{
-    string customSuffix = "Response";
-    var tmpDisplayName = currentClass.ShortDisplayName().Replace("<", "").Replace(">", "");
-    var removedSuffix = tmpDisplayName.EndsWith(customSuffix) ? tmpDisplayName.Substring(0, tmpDisplayName.Length - customSuffix.Length) : tmpDisplayName;
-    return removedSuffix;
-}
+        private static string schemaIdStrategy(Type currentClass)
+        {
+            string customSuffix = "Response";
+            var tmpDisplayName = currentClass.ShortDisplayName().Replace("<", "").Replace(">", "");
+            var removedSuffix = tmpDisplayName.EndsWith(customSuffix) ? tmpDisplayName.Substring(0, tmpDisplayName.Length - customSuffix.Length) : tmpDisplayName;
+            return removedSuffix;
+        }
     }
 }
