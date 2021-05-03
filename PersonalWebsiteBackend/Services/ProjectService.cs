@@ -3,32 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using PersonalWebsiteBackend.Data;
 using PersonalWebsiteBackend.Domain;
+using PersonalWebsiteBackend.Options;
 
 namespace PersonalWebsiteBackend.Services
 {
     public class ProjectService : IProjectService
     {
         private readonly DataContext _dataContext;
-        
-        public ProjectService(DataContext dataContext)
+        private readonly IConfiguration _configuration;
+
+        public ProjectService(DataContext dataContext, IConfiguration configuration)
         {
             _dataContext = dataContext;
+            _configuration = configuration;
         }
 
         public async Task<List<Project>> GetProjectsAsync(GetAllProjectsFilter filter = null, PaginationFilter paginationFilter = null)
         {
-            var queryable = _dataContext.Projects.AsQueryable();
-
-            if (paginationFilter == null)
-            {
-                return new List<Project>();
-            }
+            var queryable = _dataContext.Projects.Include(a => a.User).AsQueryable();
             
-            queryable = AddFiltersOnQuery(filter, queryable);
+            queryable = AddFiltersOnQuery(filter, queryable, this._configuration);
 
-            var skip = (paginationFilter.PageNumber - 1) * paginationFilter.PageSize;
+                var skip = (paginationFilter.PageNumber - 1) * paginationFilter.PageSize;
 
             return await queryable
                 .Skip(skip)
@@ -59,11 +58,17 @@ namespace PersonalWebsiteBackend.Services
             return true;
         }
         
-        private static IQueryable<Project> AddFiltersOnQuery(GetAllProjectsFilter filter, IQueryable<Project> queryable)
+        private static IQueryable<Project> AddFiltersOnQuery(GetAllProjectsFilter filter, IQueryable<Project> queryable, IConfiguration config)
         {
-            if (!string.IsNullOrEmpty(filter?.UserId))
+            if (filter == null || string.IsNullOrEmpty(filter?.UserId))
             {
-                Console.WriteLine(filter.UserId);
+                // if no filter is provided: return projects of admin
+                var seedAdminProfile = new SeedAdminProfile();
+                config.Bind(nameof(seedAdminProfile), seedAdminProfile);
+                queryable = queryable.Where(a => a.User.Email == seedAdminProfile.Email);
+            }
+            else
+            {
                 queryable = queryable.Where(a => a.UserId == filter.UserId);
             }
 

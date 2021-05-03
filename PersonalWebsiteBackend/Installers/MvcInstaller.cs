@@ -75,6 +75,8 @@ namespace PersonalWebsiteBackend.Installers
                 var absoluteUri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent(), "/");
                 return new UriService(absoluteUri);
             });
+
+            services.AddSingleton<IConfiguration>(configuration);
         }
     }
 }
