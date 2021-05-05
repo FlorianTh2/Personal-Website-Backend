@@ -26,7 +26,7 @@ namespace PersonalWebsiteBackend
 
             services.InstallMvc(Configuration);
 
-            // services.InstallCors();
+            services.InstallCors();
 
             services.InstallAutomapper();
 
@@ -57,7 +57,7 @@ namespace PersonalWebsiteBackend
 
             app.UseRouting();
 
-            // app.UseCors();
+            app.UseCors();
 
 
             // https://www.codeproject.com/Articles/5160941/ASP-NET-CORE-Token-Authentication-and-Authorizatio
