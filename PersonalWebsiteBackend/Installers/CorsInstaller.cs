@@ -20,10 +20,14 @@ namespace PersonalWebsiteBackend.Installers
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder =>
-                    builder.WithOrigins("http://localhost:3000", "https://localhost:3000", "http://florianthom.io", "https://florianthom.io", "http://www.florianthom.io", "https://www.florianthom.io")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                );
+                        builder.AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .SetIsOriginAllowed(origin => true) // allow any origin
+                            .AllowCredentials()); // allow credentials
+
+                    // .WithOrigins("http://localhost:3000", "https://localhost:3000", "http://florianthom.io", "https://florianthom.io", "http://www.florianthom.io", "https://www.florianthom.io")
+                    // .AllowAnyHeader()
+                    // .AllowAnyMethod());
             });
         }
     }
