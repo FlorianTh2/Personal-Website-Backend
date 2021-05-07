@@ -15,6 +15,10 @@ namespace PersonalWebsiteBackend.Contracts.V1.Responses
         public string NextPage { get; set; }
 
         public string PreviousPage { get; set; }
+
+        public int PagesTotal { get; set; }
+
+        public int ItemsTotal { get; set; }
         
 
         // default ctor since our sdk needs it

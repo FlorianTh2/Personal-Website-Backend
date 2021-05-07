@@ -5,8 +5,8 @@ namespace PersonalWebsiteBackend.Services
 {
     public interface IUriService
     {
-        Uri GetAllProjectsUri(PaginationQuery pagination = null);
+        Uri GetUri(string apiRoute, string id);
         
-        Uri GetAllDocumentsUri(PaginationQuery pagination = null);
+        Uri GetAllUri(string apiRoute, PaginationQuery pagination = null);
     }
 }

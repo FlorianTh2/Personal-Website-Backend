@@ -7,6 +7,9 @@ using PersonalWebsiteBackend.Contracts.V1.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PersonalWebsiteBackend.Cache;
+using PersonalWebsiteBackend.Contracts.V1.Requests.Queries;
+using PersonalWebsiteBackend.Domain;
+using PersonalWebsiteBackend.Helpers;
 using PersonalWebsiteBackend.Services;
 
 namespace PersonalWebsiteBackend.Controllers.V1
@@ -36,10 +39,19 @@ namespace PersonalWebsiteBackend.Controllers.V1
         [HttpGet]
         [Route(ApiRoutes.Documents.GetAll, Name = "[controller]_[action]")]
         [Cache(600)]
-        public async Task<ActionResult<Response<List<DocumentResponse>>>> GetAll()
+        public async Task<ActionResult<Response<List<DocumentResponse>>>> GetAll([FromQuery] PaginationQuery paginationQuery)
         {
-            var documents = await _documentService.GetDocumentsAsync();
-            return Ok(new Response<List<DocumentResponse>>(_mapper.Map<List<DocumentResponse>>(documents)));
+            var paginationFilter = _mapper.Map<PaginationFilter>(paginationQuery);
+            
+            var serviceResponse = await _documentService.GetDocumentsAsync(paginationFilter);
+            var documentsResponse = _mapper.Map<List<DocumentResponse>>(serviceResponse.Documents);
+            
+            if (paginationFilter == null || paginationFilter.PageNumber < 1 || paginationFilter.PageSize < 1)
+            {
+                return Ok(new PagedResponse<DocumentResponse>(documentsResponse));
+            }
+
+            return Ok(PaginationHelpers.CreatePaginatedResponse(_uriService,ApiRoutes.Documents.GetAll, paginationFilter, documentsResponse, serviceResponse.TotalDocuments ));
         }
 
         /// <summary>

@@ -7,7 +7,7 @@ namespace PersonalWebsiteBackend.Services
 {
     public interface IProjectService
     {
-        Task<List<Project>> GetProjectsAsync(GetAllProjectsFilter filter = null, PaginationFilter paginationFilter = null);
+        Task<GetProjectsAsyncServiceResponse> GetProjectsAsync(GetAllProjectsFilter filter = null, PaginationFilter paginationFilter = null);
 
         Task<Project> GetProjectByIdAsync(Guid projectId);
         

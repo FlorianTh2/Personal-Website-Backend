@@ -19,7 +19,7 @@ namespace PersonalWebsiteBackend.Extensions
                 // solution: https://stackoverflow.com/a/31504086/11244995
                 //    - use this specific link (i guess to trigger generation of thumbnail)
                 //    - use "sz"-Parameter to control the size of the image
-                ThumbnailLink = "https://drive.google.com/thumbnail?authuser=0&sz=w254&id=" + file.Id,
+                ThumbnailLink = "https://drive.google.com/thumbnail?authuser=0&sz=w800&id=" + file.Id,
                 WebcontentLink = file.WebContentLink,
                 WebviewLink = file.WebViewLink,
                 FileExtension = file.FileExtension,

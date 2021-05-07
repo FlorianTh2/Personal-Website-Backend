@@ -21,18 +21,22 @@ namespace PersonalWebsiteBackend.Services
             _configuration = configuration;
         }
 
-        public async Task<List<Project>> GetProjectsAsync(GetAllProjectsFilter filter = null, PaginationFilter paginationFilter = null)
+        public async Task<GetProjectsAsyncServiceResponse> GetProjectsAsync(GetAllProjectsFilter filter = null,
+            PaginationFilter paginationFilter = null)
         {
             var queryable = _dataContext.Projects.Include(a => a.User).AsQueryable();
-            
+
             queryable = AddFiltersOnQuery(filter, queryable, this._configuration);
 
-                var skip = (paginationFilter.PageNumber - 1) * paginationFilter.PageSize;
+            var skip = (paginationFilter.PageNumber - 1) * paginationFilter.PageSize;
 
-            return await queryable
-                .Skip(skip)
-                .Take(paginationFilter.PageSize)
-                .ToListAsync();
+            var serviceResponse = new GetProjectsAsyncServiceResponse()
+            {
+                Projects = await queryable.AsNoTracking().Skip(skip).Take(paginationFilter.PageSize).ToListAsync(),
+                TotalProjects = await queryable.AsNoTracking().LongCountAsync()
+            };
+            
+            return serviceResponse;
         }
 
         public async Task<Project> GetProjectByIdAsync(Guid projectId)
@@ -40,7 +44,7 @@ namespace PersonalWebsiteBackend.Services
             return await _dataContext.Projects
                 .SingleOrDefaultAsync(a => a.Id == projectId);
         }
-        
+
         public async Task<bool> UserOwnsProjectAsync(Guid projectId, string userId)
         {
             var project = await _dataContext.Projects.AsNoTracking().SingleOrDefaultAsync(a => a.Id == projectId);
@@ -57,8 +61,9 @@ namespace PersonalWebsiteBackend.Services
 
             return true;
         }
-        
-        private static IQueryable<Project> AddFiltersOnQuery(GetAllProjectsFilter filter, IQueryable<Project> queryable, IConfiguration config)
+
+        private static IQueryable<Project> AddFiltersOnQuery(GetAllProjectsFilter filter, IQueryable<Project> queryable,
+            IConfiguration config)
         {
             if (filter == null || string.IsNullOrEmpty(filter?.UserId))
             {

@@ -11,20 +11,22 @@ namespace PersonalWebsiteBackend.Helpers
     {
         public static PagedResponse<T> CreatePaginatedResponse<T>(
             IUriService uriService,
+            string apiRoute,
             PaginationFilter paginationFilter,
-            List<T> response
+            List<T> response,
+            long totalCount
         )
         {
             // caluclate next/previous page
             var nextPage = paginationFilter.PageNumber >= 1
                 ? uriService
-                    .GetAllProjectsUri(new PaginationQuery(paginationFilter.PageNumber + 1, paginationFilter.PageSize))
+                    .GetAllUri(apiRoute,  new PaginationQuery(paginationFilter.PageNumber + 1, paginationFilter.PageSize))
                     .ToString()
                 : null;
 
             var previousPage = paginationFilter.PageNumber - 1 >= 1
                 ? uriService
-                    .GetAllProjectsUri(new PaginationQuery(paginationFilter.PageNumber - 1, paginationFilter.PageSize))
+                    .GetAllUri(apiRoute, new PaginationQuery(paginationFilter.PageNumber - 1, paginationFilter.PageSize))
                     .ToString()
                 : null;
 
@@ -34,8 +36,10 @@ namespace PersonalWebsiteBackend.Helpers
                 Data = response,
                 PageNumber = paginationFilter.PageNumber >= 1 ? paginationFilter.PageNumber : (int?) null,
                 PageSize = paginationFilter.PageSize >= 1 ? paginationFilter.PageSize : (int?) null,
-                NextPage = response.Any() ? nextPage : null,
-                PreviousPage = previousPage
+                NextPage = (response.Any() && paginationFilter.PageNumber * paginationFilter.PageSize < totalCount) ? nextPage : null,
+                PreviousPage = previousPage,
+                ItemsTotal = (int)totalCount,
+                PagesTotal = (int)((totalCount + paginationFilter.PageSize - 1) / paginationFilter.PageSize),
             };
         }
     }

@@ -1,10 +1,13 @@
 ﻿﻿using System;
-using PersonalWebsiteBackend.Contracts.V1;
+ using System.Text.RegularExpressions;
+ using PersonalWebsiteBackend.Contracts.V1;
 using PersonalWebsiteBackend.Contracts.V1.Requests.Queries;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace PersonalWebsiteBackend.Services
 {
+    // you can also add request.path to the baseUri at the installer so you dont need to add the api routes here
+    // but when your baseUri evolves to a "path"-uri
     public class UriService : IUriService
     {
         private readonly string _baseUri;
@@ -13,31 +16,22 @@ namespace PersonalWebsiteBackend.Services
         {
             _baseUri = baseUri;
         }
-        
-        public Uri GetAllProjectsUri(PaginationQuery pagination = null)
+
+        public Uri GetUri(string apiRoute, string id)
         {
-            var uri = new Uri(_baseUri);
-
-            if (pagination == null)
-            {
-                return uri;
-            }
-
-            var modifiedUri = QueryHelpers.AddQueryString(_baseUri, "pageNumber", pagination.PageNumber.ToString());
-            modifiedUri = QueryHelpers.AddQueryString(modifiedUri, "pageSize", pagination.PageSize.ToString());
-            return new Uri(modifiedUri);
+            return new Uri(_baseUri + Regex.Replace(apiRoute, "{.*?}", id));
         }
-        
-        public Uri GetAllDocumentsUri(PaginationQuery pagination = null)
+
+        public Uri GetAllUri(string apiRoute,PaginationQuery pagination = null)
         {
-            var uri = new Uri(_baseUri);
+            var uri = new Uri(_baseUri + apiRoute);
 
             if (pagination == null)
             {
                 return uri;
             }
-
-            var modifiedUri = QueryHelpers.AddQueryString(_baseUri, "pageNumber", pagination.PageNumber.ToString());
+            
+            var modifiedUri = QueryHelpers.AddQueryString(uri.ToString(), "pageNumber", pagination.PageNumber.ToString());
             modifiedUri = QueryHelpers.AddQueryString(modifiedUri, "pageSize", pagination.PageSize.ToString());
             return new Uri(modifiedUri);
         }

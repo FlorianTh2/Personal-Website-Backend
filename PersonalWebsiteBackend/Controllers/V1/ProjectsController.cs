@@ -50,15 +50,15 @@ namespace PersonalWebsiteBackend.Controllers.V1
             var paginationFilter = _mapper.Map<PaginationFilter>(paginationQuery);
             var filter = _mapper.Map<GetAllProjectsFilter>(query);
             
-            var projects = await _projectService.GetProjectsAsync(filter, paginationFilter);
-            var projectsResponse = _mapper.Map<List<ProjectResponse>>(projects);
+            var serviceResponse = await _projectService.GetProjectsAsync(filter, paginationFilter);
+            var projectsResponse = _mapper.Map<List<ProjectResponse>>(serviceResponse.Projects);
 
             if (paginationFilter == null || paginationFilter.PageNumber < 1 || paginationFilter.PageSize < 1)
             {
                 return Ok(new PagedResponse<ProjectResponse>(projectsResponse));
             }
             
-            return Ok(PaginationHelpers.CreatePaginatedResponse(_uriService, paginationFilter, projectsResponse));
+            return Ok(PaginationHelpers.CreatePaginatedResponse(_uriService, ApiRoutes.Projects.GetAll, paginationFilter, projectsResponse, serviceResponse.TotalProjects));
         }
 
         /// <summary>
