@@ -39,7 +39,7 @@ namespace PersonalWebsiteBackend.Controllers.V1
         [HttpGet]
         [Route(ApiRoutes.Documents.GetAll, Name = "[controller]_[action]")]
         [Cache(600)]
-        public async Task<ActionResult<PagedResponse<List<DocumentResponse>>>> GetAll([FromQuery] GetAllDocumentsQuery query, [FromQuery] PaginationQuery paginationQuery)
+        public async Task<ActionResult<PagedResponse<DocumentResponse>>> GetAll([FromQuery] GetAllDocumentsQuery query, [FromQuery] PaginationQuery paginationQuery)
         {
             var paginationFilter = _mapper.Map<PaginationFilter>(paginationQuery);
             var filter = _mapper.Map<GetAllDocumentsFilter>(query);
