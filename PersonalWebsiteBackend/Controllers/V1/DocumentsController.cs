@@ -39,11 +39,12 @@ namespace PersonalWebsiteBackend.Controllers.V1
         [HttpGet]
         [Route(ApiRoutes.Documents.GetAll, Name = "[controller]_[action]")]
         [Cache(600)]
-        public async Task<ActionResult<PagedResponse<List<DocumentResponse>>>> GetAll([FromQuery] PaginationQuery paginationQuery)
+        public async Task<ActionResult<PagedResponse<List<DocumentResponse>>>> GetAll([FromQuery] GetAllDocumentsQuery query, [FromQuery] PaginationQuery paginationQuery)
         {
             var paginationFilter = _mapper.Map<PaginationFilter>(paginationQuery);
-            
-            var serviceResponse = await _documentService.GetDocumentsAsync(paginationFilter);
+            var filter = _mapper.Map<GetAllDocumentsFilter>(query);
+
+            var serviceResponse = await _documentService.GetDocumentsAsync(filter, paginationFilter);
             var documentsResponse = _mapper.Map<List<DocumentResponse>>(serviceResponse.Documents);
             
             if (paginationFilter == null || paginationFilter.PageNumber < 1 || paginationFilter.PageSize < 1)

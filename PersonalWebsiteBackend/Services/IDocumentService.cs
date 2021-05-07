@@ -7,7 +7,7 @@ namespace PersonalWebsiteBackend.Services
 {
     public interface IDocumentService
     {
-        Task<GetDocumentsAsyncServiceResponse> GetDocumentsAsync(PaginationFilter paginationFilter = null);
+        Task<GetDocumentsAsyncServiceResponse> GetDocumentsAsync(GetAllDocumentsFilter filter = null, PaginationFilter paginationFilter = null);
 
         Task<Document> GetDocumentByIdAsync(Guid documentId);
         

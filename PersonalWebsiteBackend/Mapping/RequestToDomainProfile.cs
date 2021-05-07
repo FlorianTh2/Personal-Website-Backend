@@ -10,6 +10,7 @@ namespace PersonalWebsiteBackend.Mapping
         {
             CreateMap<PaginationQuery, PaginationFilter>();
             CreateMap<GetAllProjectsQuery, GetAllProjectsFilter>();
+            CreateMap<GetAllDocumentsQuery, GetAllDocumentsFilter>();
         }
     }
 }
