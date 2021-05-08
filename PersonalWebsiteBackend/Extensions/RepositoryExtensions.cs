@@ -24,8 +24,8 @@ namespace PersonalWebsiteBackend.Extensions
                 stars = repository.StargazersCount,
                 WatchersCount = repository.WatchersCount,
                 Visibility = (Domain.Visibility) repository.Visibility,
-                ProjectCreatedOn = repository.CreatedAt.DateTime,
-                ProjectUpdatedOn = repository.UpdatedAt.DateTime
+                ProjectCreatedOn = repository.CreatedAt.UtcDateTime,
+                ProjectUpdatedOn = repository.UpdatedAt.UtcDateTime
             };
             return project;
         }

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace PersonalWebsiteBackend.Installers
@@ -7,7 +8,10 @@ namespace PersonalWebsiteBackend.Installers
     {
         public static void InstallAutomapper(this IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(config =>
+            {
+                config.CreateMap<DateTime, string>().ConvertUsing(dt => dt.ToString("o"));
+            }, typeof(Startup));
         }
     }
 }
