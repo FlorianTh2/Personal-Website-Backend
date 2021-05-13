@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest]
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -31,30 +31,46 @@ jobs:
         SEEDADMINPROFILE__PASSWORD: ${{ secrets.SEEDADMINPROFILE__PASSWORD }}
         ALLOWEDHOSTS: ${{ secrets.ALLOWEDHOSTS }}
 
-
-  test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+  dockerpush:
+    name: Build image + push to docker hub
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.100
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
-      env:
-        JWTSETTINGS__SECRET: ${{ secrets.JWTSETTINGS__SECRET }}
-        JWTSETTINGS__TOKENLIFETIME: ${{ secrets.JWTSETTINGS__TOKENLIFETIME }}
-        REDISCACHESETTINGS__CONNECTIONSTRING: ${{ secrets.REDISCACHESETTINGS__CONNECTIONSTRING }}
-        REDISCACHESETTINGS__ENABLED: ${{ secrets.REDISCACHESETTINGS__ENABLED }}
-        SEEDADMINPROFILE__EMAIL: ${{ secrets.SEEDADMINPROFILE__EMAIL }}
-        SEEDADMINPROFILE__IDENTITYROLENAME: ${{ secrets.SEEDADMINPROFILE__IDENTITYROLENAME }}
-        SEEDADMINPROFILE__PASSWORD: ${{ secrets.SEEDADMINPROFILE__PASSWORD }}
-        ALLOWEDHOSTS: ${{ secrets.ALLOWEDHOSTS }}
+      - uses: actions/checkout@v2
+      - name: docker login
+        env:
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - name: build the docker image
+        run: docker build . --file PersonalWebsiteBackend/Dockerfile --tag ${{secrets.DOCKER_USER}}/personal-website-backend:latest
+      - name: docker push
+        run: docker push ${{secrets.DOCKER_USER}}/personal-website-backend:latest
+
+
+#  test:
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        os: [ubuntu-latest]
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: Setup .NET Core
+#      uses: actions/setup-dotnet@v1
+#      with:
+#        dotnet-version: 5.0.100
+#    - name: Install dependencies
+#      run: dotnet restore
+#    - name: Build
+#      run: dotnet build --configuration Release --no-restore
+#    - name: Test
+#      run: dotnet test --no-restore --verbosity normal
+#      env:
+#        JWTSETTINGS__SECRET: ${{ secrets.JWTSETTINGS__SECRET }}
+#        JWTSETTINGS__TOKENLIFETIME: ${{ secrets.JWTSETTINGS__TOKENLIFETIME }}
+#        REDISCACHESETTINGS__CONNECTIONSTRING: ${{ secrets.REDISCACHESETTINGS__CONNECTIONSTRING }}
+#        REDISCACHESETTINGS__ENABLED: ${{ secrets.REDISCACHESETTINGS__ENABLED }}
+#        SEEDADMINPROFILE__EMAIL: ${{ secrets.SEEDADMINPROFILE__EMAIL }}
+#        SEEDADMINPROFILE__IDENTITYROLENAME: ${{ secrets.SEEDADMINPROFILE__IDENTITYROLENAME }}
+#        SEEDADMINPROFILE__PASSWORD: ${{ secrets.SEEDADMINPROFILE__PASSWORD }}
+#        ALLOWEDHOSTS: ${{ secrets.ALLOWEDHOSTS }}
