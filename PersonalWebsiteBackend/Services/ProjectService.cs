@@ -42,7 +42,7 @@ namespace PersonalWebsiteBackend.Services
 
             var serviceResponse = new GetProjectsAsyncServiceResponse()
             {
-                Projects = await queryable.AsNoTracking().Skip(skip).Take(paginationFilter.PageSize).ToListAsync(),
+                Projects = await queryable.AsNoTracking().OrderByDescending(a=>a.ProjectCreatedOn).Skip(skip).Take(paginationFilter.PageSize).ToListAsync(),
                 TotalProjects = await queryable.AsNoTracking().LongCountAsync()
             };
 

@@ -39,7 +39,7 @@ namespace PersonalWebsiteBackend.Services
             var serviceResponse = new GetDocumentsAsyncServiceResponse()
             {
                 TotalDocuments = await queryable.AsNoTracking().LongCountAsync(),
-                Documents = await queryable.AsNoTracking().Skip(skip).Take(paginationFilter.PageSize).ToListAsync(),
+                Documents = await queryable.AsNoTracking().OrderByDescending(a=>a.DocumentCreatedTime).Skip(skip).Take(paginationFilter.PageSize).ToListAsync(),
             };
             return serviceResponse;
         }
