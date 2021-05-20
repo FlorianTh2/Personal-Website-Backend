@@ -40,7 +40,7 @@ namespace PersonalWebsiteBackend.Installers
             services.AddHangfireServer(options =>
             {
                 // specifies in which intervall server checks for possible enqueued jobs
-                options.SchedulePollingInterval = TimeSpan.FromSeconds(1);
+                options.SchedulePollingInterval = TimeSpan.FromHours(1);
                 options.HeartbeatInterval = TimeSpan.FromSeconds(30.0);
             });
         }

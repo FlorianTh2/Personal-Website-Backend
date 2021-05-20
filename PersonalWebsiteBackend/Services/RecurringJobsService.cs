@@ -23,8 +23,9 @@ namespace PersonalWebsiteBackend.Services
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             AddStartingMessageJob();
-            AddHelloSecondsJobs();
-            // AddProjectUpdateJob();
+            // AddHelloSecondsJobs();
+            AddProjectUpdateJob();
+            AddDocumentUpdateJob();
             return Task.CompletedTask;
         }
 

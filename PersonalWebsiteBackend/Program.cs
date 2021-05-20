@@ -34,7 +34,8 @@ namespace PersonalWebsiteBackend
 
                 // created hangfire database if not existing
                 var dbContextHangfire = serviceScope.ServiceProvider.GetRequiredService<HangfireDbContext>();
-                await dbContextHangfire.Database.MigrateAsync();
+                await dbContextHangfire.Database.EnsureDeletedAsync();
+                await dbContextHangfire.Database.EnsureCreatedAsync();
 
                 var env = serviceScope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
                 var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
