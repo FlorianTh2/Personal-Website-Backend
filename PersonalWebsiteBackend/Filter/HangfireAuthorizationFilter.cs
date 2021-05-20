@@ -2,11 +2,12 @@
 
 namespace PersonalWebsiteBackend.Filter
 {
-    public class HangfireAuthorizationFilter
+    public class HangfireAuthorizationFilter : IDashboardAuthorizationFilter
     {
         public bool Authorize(DashboardContext context)
         {
-            return context.GetHttpContext().User.Identity.IsAuthenticated;
+            // return context.GetHttpContext().User.Identity.IsAuthenticated;
+            return true;
         }
     }
 }

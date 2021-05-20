@@ -65,8 +65,8 @@ namespace PersonalWebsiteBackend.Services
 
             return true;
         }
-
-        public async Task UpdateDocumentsInDatabase()
+        
+        public async Task UpdateDocumentsInDatabaseAsync()
         {
             var seedAdminProfile = new SeedAdminProfile();
             _configuration.Bind(nameof(seedAdminProfile), seedAdminProfile);

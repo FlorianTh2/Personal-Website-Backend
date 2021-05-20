@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using PersonalWebsiteBackend.Filter;
 
 
 namespace PersonalWebsiteBackend
@@ -63,8 +64,8 @@ namespace PersonalWebsiteBackend
             // see https://stackoverflow.com/questions/44073911/hangfire-does-not-process-recurring-jobs-unless-dashboard-is-open
             app.UseHangfireDashboard("/hangfire", new DashboardOptions
             {
-                IsReadOnlyFunc = (DashboardContext context) => true
-                // Authorization = new[] {new HangfireAuthorizationFilter()}
+                IsReadOnlyFunc = (DashboardContext context) => true,
+                Authorization = new[] {new HangfireAuthorizationFilter()}
             });
 
             app.UseCustomHealthChecks();
