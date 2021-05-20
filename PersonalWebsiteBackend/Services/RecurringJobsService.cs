@@ -43,7 +43,14 @@ namespace PersonalWebsiteBackend.Services
         {
             string jobId = "updateProjectJobId";
             _recurringJobs.RemoveIfExists(jobId);
-            _recurringJobs.AddOrUpdate<ProjectService>(jobId, a => a.UpdateProjectsInDatabase(), Cron.Hourly);
+            _recurringJobs.AddOrUpdate<ProjectService>(jobId, a => a.UpdateProjectsInDatabase().Wait(), Cron.Hourly);
+        }
+
+        public void AddDocumentUpdateJob()
+        {
+            string jobId = "updateDocumentJobId";
+            _recurringJobs.RemoveIfExists(jobId);
+            _recurringJobs.AddOrUpdate<DocumentService>(jobId, a => a.UpdateDocumentsInDatabase().Wait(), Cron.Hourly);
         }
     }
 }

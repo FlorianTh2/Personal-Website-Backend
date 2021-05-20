@@ -12,5 +12,7 @@ namespace PersonalWebsiteBackend.Services
         Task<Project> GetProjectByIdAsync(Guid projectId);
         
         Task<bool> UserOwnsProjectAsync(Guid projectId, string userId);
+
+        public Task UpdateProjectsInDatabase();
     }
 }

@@ -12,5 +12,7 @@ namespace PersonalWebsiteBackend.Services
         Task<Document> GetDocumentByIdAsync(Guid documentId);
         
         Task<bool> UserOwnsDocumentAsync(Guid documentId, string userId);
+
+        public Task UpdateDocumentsInDatabase();
     }
 }
