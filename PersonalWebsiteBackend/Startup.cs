@@ -26,7 +26,7 @@ namespace PersonalWebsiteBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services.InstallProjectServices(Configuration);
-            
+
             services.InstallDb(Configuration);
 
             services.InstallMvc(Configuration);
@@ -65,7 +65,7 @@ namespace PersonalWebsiteBackend
             app.UseHangfireDashboard("/hangfire", new DashboardOptions
             {
                 IsReadOnlyFunc = (DashboardContext context) => true,
-                // Authorization = new[] {new HangfireAuthorizationFilter()}
+                Authorization = new[] {new HangfireAuthorizationFilter()}
             });
 
             app.UseCustomHealthChecks();
