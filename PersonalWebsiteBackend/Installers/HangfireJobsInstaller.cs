@@ -7,7 +7,7 @@ namespace PersonalWebsiteBackend.Installers
     {
         public static void InstallHangfireJobs(this IServiceCollection services)
         {
-            services.AddHostedService<RecurringJobsService>();
+            // services.AddHostedService<RecurringJobsService>();
         }
     }
 }

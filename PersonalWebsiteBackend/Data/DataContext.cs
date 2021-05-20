@@ -41,12 +41,13 @@ namespace PersonalWebsiteBackend.Data
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatorId = _currentUserService.UserId;
+                        // disabled since needed for automatic updates through hangfire
+                        // entry.Entity.CreatorId = _currentUserService.UserId;
                         entry.Entity.CreatedOn = _dateTimeService.Now;
                         break;
 
                     case EntityState.Modified:
-                        entry.Entity.UpdaterId = _currentUserService.UserId;
+                        // entry.Entity.UpdaterId = _currentUserService.UserId;
                         entry.Entity.UpdatedOn = _dateTimeService.Now;
                         break;
                 }

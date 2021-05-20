@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 
@@ -17,7 +18,13 @@ namespace PersonalWebsiteBackend.Services
         // public string UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
         
         // returns userid
-        public string UserId => _httpContextAccessor.HttpContext?.User?.Claims.Single(a => a.Type == "id").Value;
-
+        public string UserId
+        {
+            get
+            {
+                var userId = _httpContextAccessor.HttpContext?.User?.Claims?.Single(a => a.Type == "id")?.Value;
+                return userId;
+            }
+        }
     }
 }

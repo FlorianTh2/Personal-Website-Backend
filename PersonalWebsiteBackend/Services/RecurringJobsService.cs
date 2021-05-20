@@ -24,6 +24,7 @@ namespace PersonalWebsiteBackend.Services
         {
             AddStartingMessageJob();
             AddHelloSecondsJobs();
+            // AddProjectUpdateJob();
             return Task.CompletedTask;
         }
 
@@ -36,6 +37,13 @@ namespace PersonalWebsiteBackend.Services
             string jobId = "seconds";
             _recurringJobs.RemoveIfExists(jobId);
             _recurringJobs.AddOrUpdate<MessageService>(jobId,a => a.Send("Message each Second"), "*/1 * * * * *");
+        }
+
+        public void AddProjectUpdateJob()
+        {
+            string jobId = "updateProjectJobId";
+            _recurringJobs.RemoveIfExists(jobId);
+            _recurringJobs.AddOrUpdate<ProjectService>(jobId, a => a.UpdateProjectsInDatabase(), Cron.Hourly);
         }
     }
 }
