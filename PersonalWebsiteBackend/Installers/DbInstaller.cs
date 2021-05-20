@@ -16,12 +16,7 @@ namespace PersonalWebsiteBackend.Installers
         {
             
             services.AddHttpContextAccessor();
-
-            services.AddSingleton<ICurrentUserService, CurrentUserService>();
             
-            services.AddTransient<IDateTimeService, DateTimeServiceService>();
-
-
             string ConnectionString = Configuration.GetConnectionString("PersonalWebsiteBackendContextPostgre"); 
             services.AddDbContext<DataContext>(options =>
                 options.UseNpgsql(ConnectionString));
@@ -39,13 +34,6 @@ namespace PersonalWebsiteBackend.Installers
                 options.Password.RequiredLength = 10;
                 options.Password.RequiredUniqueChars = 3;
             });
-
-            // changed to scoped because of tracking?!
-            // services.AddSingleton<IProjectService, ProjectService>();
-            
-            services.AddScoped<IProjectService, ProjectService>();
-            
-            services.AddScoped<IDocumentService, DocumentService>();
         }
     }
 }
