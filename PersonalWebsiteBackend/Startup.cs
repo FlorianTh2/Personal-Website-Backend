@@ -1,3 +1,5 @@
+using Hangfire;
+using Hangfire.Dashboard;
 using PersonalWebsiteBackend.Extensions;
 using PersonalWebsiteBackend.Installers;
 using Microsoft.AspNetCore.Builder;
@@ -30,6 +32,8 @@ namespace PersonalWebsiteBackend
 
             services.InstallAutomapper();
 
+            services.InstallHangfire(Configuration);
+
             services.InstallCacheRedis(Configuration);
 
             services.InstallSwagger();
@@ -49,6 +53,14 @@ namespace PersonalWebsiteBackend
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "PersonalWebsiteBackend v1");
                 if (env.IsDevelopment())
                     c.RoutePrefix = string.Empty;
+            });
+
+            // if disabling maybe hangfire will not work since no activity
+            // see https://stackoverflow.com/questions/44073911/hangfire-does-not-process-recurring-jobs-unless-dashboard-is-open
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                IsReadOnlyFunc = (DashboardContext context) => true
+                // Authorization = new[] {new HangfireAuthorizationFilter()}
             });
 
             app.UseCustomHealthChecks();

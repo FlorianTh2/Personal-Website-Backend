@@ -19,7 +19,7 @@ namespace PersonalWebsiteBackend.Installers
 
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
             
-            services.AddTransient<IDateTime, DateTimeService>();
+            services.AddTransient<IDateTimeService, DateTimeServiceService>();
 
 
             string ConnectionString = Configuration.GetConnectionString("PersonalWebsiteBackendContextPostgre"); 

@@ -28,12 +28,17 @@ namespace PersonalWebsiteBackend
             // migrate database schema + seed database
             using (var serviceScope = host.Services.CreateScope())
             {
+                // created hangfire database if not existing
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<DataContext>();
                 await dbContext.Database.MigrateAsync();
 
+                // created hangfire database if not existing
+                var dbContextHangfire = serviceScope.ServiceProvider.GetRequiredService<HangfireDbContext>();
+                await dbContextHangfire.Database.MigrateAsync();
+
                 var env = serviceScope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
                 var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>(); 
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 IConfiguration config = GetConfiguration(env);
 
                 await DataContextSeed.SeedDefaultUserAsync(userManager, roleManager, config);
@@ -43,8 +48,8 @@ namespace PersonalWebsiteBackend
 
             await host.RunAsync();
         }
-        
-        
+
+
         // framework-function: builds + runs methods on host-builder object (CreateDefaultBuilder == e.g. injects default logger, load appsettings.json)
         // create
         public static IHostBuilder CreateHostBuilder(string[] args)
@@ -60,10 +65,7 @@ namespace PersonalWebsiteBackend
                         .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
                         .ReadFrom.Configuration(context.Configuration);
                 })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
         }
 
 

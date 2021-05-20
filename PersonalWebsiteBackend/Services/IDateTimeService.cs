@@ -2,7 +2,7 @@
 
 namespace PersonalWebsiteBackend.Services
 {
-    public interface IDateTime
+    public interface IDateTimeService
     {
         public DateTime Now { get; }
     }

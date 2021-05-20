@@ -15,18 +15,18 @@ namespace PersonalWebsiteBackend.Data
     {
         private readonly ICurrentUserService _currentUserService;
 
-        private readonly IDateTime _dateTime;
+        private readonly IDateTimeService _dateTimeService;
         public DbSet<Project> Projects { get; set; }
 
         public DbSet<Document> Documents { get; set; }
         
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
-        public DataContext(DbContextOptions<DataContext> options, ICurrentUserService currentUserService, IDateTime dateTime)
+        public DataContext(DbContextOptions<DataContext> options, ICurrentUserService currentUserService, IDateTimeService dateTimeService)
             : base(options)
         {
             _currentUserService = currentUserService;
-            _dateTime = dateTime;
+            _dateTimeService = dateTimeService;
         }
         
         protected override void OnModelCreating(ModelBuilder builder)
@@ -42,12 +42,12 @@ namespace PersonalWebsiteBackend.Data
                 {
                     case EntityState.Added:
                         entry.Entity.CreatorId = _currentUserService.UserId;
-                        entry.Entity.CreatedOn = _dateTime.Now;
+                        entry.Entity.CreatedOn = _dateTimeService.Now;
                         break;
 
                     case EntityState.Modified:
                         entry.Entity.UpdaterId = _currentUserService.UserId;
-                        entry.Entity.UpdatedOn = _dateTime.Now;
+                        entry.Entity.UpdatedOn = _dateTimeService.Now;
                         break;
                 }
             }
