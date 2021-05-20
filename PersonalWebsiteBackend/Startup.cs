@@ -24,6 +24,8 @@ namespace PersonalWebsiteBackend
         // framework-function: configure services
         public void ConfigureServices(IServiceCollection services)
         {
+            services.InstallProjectServices(Configuration);
+            
             services.InstallDb(Configuration);
 
             services.InstallMvc(Configuration);
@@ -33,6 +35,8 @@ namespace PersonalWebsiteBackend
             services.InstallAutomapper();
 
             services.InstallHangfire(Configuration);
+
+            services.InstallHangfireJobs();
 
             services.InstallCacheRedis(Configuration);
 

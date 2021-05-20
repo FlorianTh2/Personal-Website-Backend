@@ -12,7 +12,7 @@ namespace PersonalWebsiteBackend.Installers
     {
         public static void InstallHangfire(this IServiceCollection services, IConfiguration configuration)
         {
-            string connectionString = configuration.GetConnectionString("HelloHangfireConnectionString");
+            string connectionString = configuration.GetConnectionString("HangfireBackendContextPostgre");
             
             services.AddDbContext<HangfireDbContext>(options => 
                 options.UseNpgsql(connectionString));
