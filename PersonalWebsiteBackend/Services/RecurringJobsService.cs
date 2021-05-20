@@ -44,7 +44,7 @@ namespace PersonalWebsiteBackend.Services
         {
             string jobId = "updateProjectJobId";
             _recurringJobs.RemoveIfExists(jobId);
-            _recurringJobs.AddOrUpdate<ProjectService>(jobId, a => a.UpdateProjectsInDatabase(), Cron.Hourly);
+            _recurringJobs.AddOrUpdate<ProjectService>(jobId, a => a.UpdateProjectsInDatabaseAsync(), Cron.Hourly);
         }
 
         public void AddDocumentUpdateJob()

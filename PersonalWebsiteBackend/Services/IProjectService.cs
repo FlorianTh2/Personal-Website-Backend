@@ -13,6 +13,6 @@ namespace PersonalWebsiteBackend.Services
         
         Task<bool> UserOwnsProjectAsync(Guid projectId, string userId);
 
-        public Task UpdateProjectsInDatabase();
+        public Task UpdateProjectsInDatabaseAsync();
     }
 }

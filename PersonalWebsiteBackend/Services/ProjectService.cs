@@ -90,7 +90,7 @@ namespace PersonalWebsiteBackend.Services
             return queryable;
         }
 
-        public async Task UpdateProjectsInDatabase()
+        public async Task UpdateProjectsInDatabaseAsync()
         {
             // get admin
             var seedAdminProfile = new SeedAdminProfile();
@@ -131,6 +131,13 @@ namespace PersonalWebsiteBackend.Services
                         project.UpdatedOn = _dateTimeService.Now;
                         await _dataContext.AddAsync(project);
                     }
+                }
+            }
+            foreach (KeyValuePair<long, Project> entry in allProjectOfUser)
+            {
+                if (!repositories.Where(a => a.Id == entry.Key).Any())
+                {
+                    _dataContext.Projects.Remove(entry.Value);
                 }
             }
             await _dataContext.SaveChangesAsync();
