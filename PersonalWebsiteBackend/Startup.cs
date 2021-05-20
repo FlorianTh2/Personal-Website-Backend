@@ -65,7 +65,7 @@ namespace PersonalWebsiteBackend
             app.UseHangfireDashboard("/hangfire", new DashboardOptions
             {
                 IsReadOnlyFunc = (DashboardContext context) => true,
-                Authorization = new[] {new HangfireAuthorizationFilter()}
+                // Authorization = new[] {new HangfireAuthorizationFilter()}
             });
 
             app.UseCustomHealthChecks();
