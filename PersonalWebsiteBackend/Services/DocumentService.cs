@@ -98,6 +98,10 @@ namespace PersonalWebsiteBackend.Services
                     }
                     else
                     {
+                        document.CreatorId = "SYSTEM";
+                        document.UpdaterId = "SYSTEM";
+                        document.CreatedOn = _dateTimeService.Now;
+                        document.UpdatedOn = _dateTimeService.Now;
                         await _dataContext.AddAsync(document);
                     }
                 }

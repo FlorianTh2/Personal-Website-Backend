@@ -125,6 +125,10 @@ namespace PersonalWebsiteBackend.Services
                     }
                     else
                     {
+                        project.CreatorId = "SYSTEM";
+                        project.UpdaterId = "SYSTEM";
+                        project.CreatedOn = _dateTimeService.Now;
+                        project.UpdatedOn = _dateTimeService.Now;
                         await _dataContext.AddAsync(project);
                     }
                 }
